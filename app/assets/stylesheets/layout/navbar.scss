@@ -1,0 +1,83 @@
+#top_menu
+{
+  background-color: #282828;
+  margin: 0;
+
+  #main_logo {
+    position: relative;
+    bottom: 7px;
+  }
+
+  .dropdown-toggle {
+    width: 160px;
+    text-align: left;
+    padding: 15px 20px;
+  }
+
+  #top_menu_actions {
+    color: #7f7f7f;
+    font-size: 15px;
+    display: none;
+
+    #actions_button {
+      padding: 14px 60px;
+    }
+  }
+
+  #top_menu_actions:hover {
+    color: #bfbfbf;
+  }
+}
+
+.jq-dropdown-menu {
+  border-radius: 0;
+}
+
+.ui-autocomplete {
+  z-index: 10000 !important;
+}
+
+.breadcrumb
+{
+  background-color: #2D2D2D;
+  padding: 0 15px;
+  margin: 0;
+  border-style: solid;
+  border-color: #080808;
+  border-width: 1px 0 0 0;
+  border-radius: 0;
+
+  li {
+    color: lightgray;
+  }
+}
+
+#student_search{
+  input::-webkit-input-placeholder {
+    color: #999999;
+  }
+
+  input:-moz-placeholder { /* Firefox 18- */
+    color: #999999;
+  }
+
+  input::-moz-placeholder {  /* Firefox 19+ */
+    color: #999999;
+  }
+
+  input:-ms-input-placeholder {
+    color: #999999;
+  }
+
+  * {
+    color: white;
+  }
+
+  span {
+    position: relative;
+    right: 35px;
+    top: 5px;
+    display: none;
+  }
+}
+

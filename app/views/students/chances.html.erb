@@ -1,0 +1,44 @@
+<h3 class="default">
+    Yours students with <%= params[:value] %>% chances of success
+</h3>
+
+<table class="table default clickable picturable">
+    <thead>
+    <tr>
+        <th>
+            Login
+        </th>
+        <th>
+            Last checkup by
+        </th>
+        <th>
+            Last checkup date
+        </th>
+    </tr>
+    </thead>
+
+    <% @students.each do |student| %>
+        <tr href="<%= student_path(student.login) %>" picture="<%= student.picture %>">
+            <td>
+                <%= student.login %>
+            </td>
+            <% if student.student_checkup_relations.empty? %>
+                <td>No checkup yet</td>
+                <td>No checkup yet</td>
+            <% else %>
+                <td>
+                    <%= student.student_checkup_relations.last.checkup.user.login %>
+                </td>
+                <td>
+                    <%= student.student_checkup_relations.last.checkup.created_at.to_date %>
+                </td>
+            <% end %>
+        </tr>
+    <% end %>
+</table>
+
+<script>
+    $(function() {
+        defaultDatatable($('table'));
+    });
+</script>

@@ -1,0 +1,85 @@
+<h3 class="default">
+    Your students mendatories
+</h3>
+
+<div class="jquery-tabs row">
+    <ul>
+        <% @data['mandatory'].each do |key, data| %>
+            <li>
+                <a href="#<%= "result-#{key}" %>">
+                    <%= data['name'] %>
+                    <span class="badge"><%= data['students_number'] %> students</span>
+                </a>
+            </li>
+        <% end %>
+    </ul>
+
+    <% @data['mandatory'].each do |key, data| %>
+        <div class="col-xs-12" id="<%= "result-#{key}" %>">
+            <table class="table default infoable">
+                <thead>
+                <tr>
+                    <th>
+                        Login
+                    </th>
+                    <th>
+                        Location
+                    </th>
+                    <th>
+                        Promo
+                    </th>
+                    <th>
+                        Total credits
+                    </th>
+
+                    <% @data['mandatory'][key]['mandatory_modules'].each do |epitech_module| %>
+                        <th info="<%= "name : #{epitech_module['name']} - credits : #{epitech_module['credits']}" %>">
+                            <%= epitech_module['code'] %>
+                        </th>
+                    <% end %>
+
+                    <th>Good ?</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <% @data['mandatory'][key]['students'].each do |k, student| %>
+                    <tr>
+                        <td>
+                            <%= student['login'] %>
+                        </td>
+                        <td>
+                            <%= student['location'] %>
+                        </td>
+                        <td>
+                            <%= student['promo'] %>
+                        </td>
+                        <td>
+                            <%= student['credits'] %>
+                        </td>
+                        <% good = true %>
+                        <% @data['mandatory'][key]['mandatory_modules'].each do |epitech_module| %>
+                            <% tmp = student_registrations_info(student['modules'][epitech_module['code']]) %>
+                            <td info="<%= tmp[:info] %>">
+                                <%= tmp[:grade] %>
+                                <% good = false unless ['A','B','C','D','ACQUIS'].any? {|grade| tmp[:grade].include?(grade) } %>
+                            </td>
+                        <% end %>
+                        <td>
+                            <%= good ? 'Good' : 'Not good' %>
+                        </td>
+                    </tr>
+                <% end %>
+                </tbody>
+            </table>
+        </div>
+    <% end %>
+</div>
+
+<script>
+    defaultDatatable($('table'), {
+        "scrollY":        "800px",
+        "scrollCollapse": true,
+        "paging":         false}
+    );
+</script>

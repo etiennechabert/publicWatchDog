@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>WatchDog</title>
+    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag params[:controller], media: 'all' %>
+
+    <%= include_gon %>
+
+    <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag params[:controller] %>
+
+    <%= yield :javascript_includes %>
+    <% yield %>
+
+    <%= csrf_meta_tags %>
+</head>
+<body>
+
+<%= render 'layouts/horizontal_menu' %>
+
+<div class="container-fluid" id="main">
+    <% unless flash.empty? %>
+        <div class="row">
+            <% flash.each do |name, msg| -%>
+                <%
+                   case name.to_sym
+                       when :success, :info, :warning, :danger
+                       else
+                                                  name = 'info'
+                   end
+                %>
+                <%= content_tag :div, msg, class: "flash-element alert bg-#{name}", role: 'alert' %>
+            <% end %>
+        </div>
+    <% end %>
+
+    <div class="main_content">
+        <%= yield %>
+    </div>
+</div>
+
+</body>
+</html>

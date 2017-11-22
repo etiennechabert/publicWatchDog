@@ -1,0 +1,37 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'students/show_netsoul' %>
+<% end %>
+
+<h3 class="default">
+    Netsoul Analysis
+</h3>
+
+<div class="row default text-center">
+    <div class="netsoul-analysis col-xs-6">
+        <h4>4 Weeks</h4>
+        <h5>
+            <span style="color: #DCDCDC">Gray is promotion </span>
+            /
+            <span style="color: #97BBCD"> Blue is student</span>
+        </h5>
+
+        <div class="canvas-holder">
+            <canvas id="netsoul_weeks_chart">
+            </canvas>
+        </div>
+    </div>
+
+    <div class="netsoul-analysis col-xs-6">
+        <h4>3 Months</h4>
+        <h5>
+            <span style="color: #DCDCDC">Gray is promotion </span>
+            /
+            <span style="color: #97BBCD"> Blue is student</span>
+        </h5>
+
+        <div class="canvas-holder">
+            <canvas id="netsoul_months_chart">
+            </canvas>
+        </div>
+    </div>
+</div>

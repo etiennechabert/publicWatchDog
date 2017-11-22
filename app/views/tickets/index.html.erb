@@ -1,0 +1,87 @@
+<p id="notice"><%= notice %></p>
+
+<div class="row">
+    <h1 class="default col-xs-10">Listing Tickets</h1>
+    <button class="col-xs-2">Create a ticket</button>
+
+    <table class="default table clickable col-xs-12", id="tickets">
+        <thead>
+        <tr>
+            <td>
+                Id
+            </td>
+
+            <td>
+                Student
+            </td>
+
+            <td>
+                Created by
+            </td>
+
+            <td>
+                Status
+            </td>
+
+            <td>
+                Category
+            </td>
+
+            <td>
+                Assignation
+            </td>
+
+            <td>
+                Number of messages
+            </td>
+
+            <td>
+                Last update
+            </td>
+
+            <td>
+                Creation
+            </td>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @tickets.each do |ticket| %>
+            <tr>
+                <td>
+                    <%= ticket.id %>
+                </td>
+                <td>
+                    <%= ticket.student.login %>
+                </td>
+                <td>
+                    <%= ticket.user.login %>
+                </td>
+                <td>
+                    <%= ticket.status %>
+                </td>
+                <td>
+                    <%= ticket.category %>
+                </td>
+                <td>
+                    <%= ticket.users.map{|u| u.login}.join(', ') %>
+                </td>
+                <td>
+                    <%= ticket.messages.count %>
+                </td>
+                <td>
+                    <%= ticket.messages.last.created_at %>
+                </td>
+                <td>
+                    <%= ticket.created_at %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    defaultDatatable($('#tickets'));
+</script>
+

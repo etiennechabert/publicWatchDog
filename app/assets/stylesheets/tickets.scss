@@ -1,0 +1,36 @@
+#assignation_actions {
+  button {
+    margin-left: 10px;
+  }
+}
+
+#status textarea {
+  background-color: #666666;
+  color: white;
+}
+
+.ticket-message {
+  float: left;
+  width: 100%;
+}
+
+#ticket_new_message {
+  background-color: #4C4C4C;
+  border-radius: 10px;
+}
+
+.user-message textarea {
+  background-color: #33334b !important;
+  color: white;
+}
+
+.message textarea {
+  background-color: #4b3333 !important;
+  color: white;
+}
+
+#status #details {
+  background-color: #4c4c4c;
+  border-radius: 10px;
+  text-align: center;
+}

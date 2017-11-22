@@ -1,0 +1,29 @@
+<div class="row" id="status">
+    <%= render 'tickets/show/status' %>
+</div>
+
+<div class="row">
+    <div class="jquery-tabs">
+        <ul>
+            <li>
+                <a href="#messages">
+                    Ticket messages
+                </a>
+            </li>
+
+            <li>
+                <a href="#assignation">
+                    Ticket assignation
+                </a>
+            </li>
+        </ul>
+
+        <div id="messages">
+            <%= render 'tickets/show/messages', messages: @ticket.messages %>
+        </div>
+
+        <div id="assignation">
+            <%= render 'tickets/show/assignation' %>
+        </div>
+    </div>
+</div>

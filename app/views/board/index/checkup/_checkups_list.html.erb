@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-xs-12">
+        <table class="table default clickable picturable colorable" id="checkups_table">
+            <thead>
+            <tr>
+                <th>
+                    Student
+                </th>
+
+                <th>
+                    User
+                </th>
+
+                <th>
+                    Comment
+                </th>
+
+                <th color="true" good="true">
+                    Days ago
+                </th>
+
+                <th color="true" good="true">
+                    Chances
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% current_user.students_last_checkups.each do |checkup_relation| %>
+            <% checkup = checkup_relation.checkup %>
+                <tr href="<%= student_path(checkup_relation.student.login) %>" picture="<%= checkup_relation.student.picture %>" popup="true">
+                    <td>
+                        <%= checkup_relation.student.login %>
+                    </td>
+
+                    <td>
+                        <%= checkup_relation.user.login %>
+                    </td>
+
+                    <td>
+                        <%= checkup.comment %>
+                    </td>
+
+                    <td data="<%= checkup.created_at.to_i %>">
+                        <span style="display: none">
+                            <%= checkup.created_at.to_i %>
+                        </span>
+                        <%= days_ago(checkup.created_at) + " days ago" %>
+                    </td>
+
+                    <td>
+                        <%= checkup.success_chance %>%
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>

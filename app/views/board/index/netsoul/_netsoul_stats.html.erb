@@ -1,0 +1,86 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'board/board_netsoul' %>
+<% end %>
+
+<div class="row">
+    <div class="col-xs-6">
+        <table class="table default choosable colorable" id="netsoul_table">
+            <thead>
+            <tr>
+                <th>
+                    Login
+                </th>
+                <th color="true" good="true">
+                    Last 3 month
+                </th>
+                <th color="true" good="true">
+                    Last Month
+                </th>
+                <th color="true" good="true">
+                    Last Week
+                </th>
+                <th color="true" good="true">
+                    Evolution last 3 month
+                </th>
+                <th color="true" good="true">
+                    Evolution last month
+                </th>
+                <th color="true" good="true">
+                    Chances
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <% current_user.students.each do |student| %>
+            <tr data="<%= student.login %>">
+                <td>
+                    <%= student.login %>
+                </td>
+
+                <% val = student.logs_sum_for_period(3.months.ago - 1.day, 1.day.ago)[:active_at_school] %>
+                <td data="<%= val %>">
+                    <span style="display: none"><%= "%.10i" %val %></span>
+                    <%= int_to_duration val %>
+                </td>
+
+
+                <% val = student.logs_sum_for_period(1.months.ago - 1.day, 1.day.ago)[:active_at_school] %>
+                <td data="<%= val %>">
+                    <span style="display: none"><%= "%.10i" %val %></span>
+                    <%= int_to_duration val %>
+                </td>
+
+                <% val = student.logs_sum_for_period(1.weeks.ago - 1.day, 1.day.ago)[:active_at_school] %>
+                <td val="<%= val %>">
+                    <span style="display: none"><%= "%.10i" %val %></span>
+                    <%= int_to_duration val %>
+                </td>
+
+                <td>
+                    <%= student.logs_evolution_for_period(3.months.ago - 1.day, 1.day.ago) %>
+                </td>
+
+                <td>
+                    <%= student.logs_evolution_for_period(1.months.ago - 1.day, 1.day.ago) %>
+                </td>
+
+                <td data="<%= student.success_chance %>">
+                    <%= student.success_chance %>%
+                </td>
+            </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-xs-6">
+        <h4 class="text-center default">3 months, Weekly</h4>
+        <canvas id="three_months_weekly" height="250" style="height: 250px; width: 100%"></canvas>
+
+        <h4 class="text-center default">1 month, Weekly</h4>
+        <canvas id="one_month_weekly" height="250" style="height: 250px; width: 100%"></canvas>
+
+        <h4 class="text-center default">1 month, Daily</h4>
+        <canvas id="one_month_daily" height="250" style="height: 250px; width: 100%"></canvas>
+    </div>
+</div>

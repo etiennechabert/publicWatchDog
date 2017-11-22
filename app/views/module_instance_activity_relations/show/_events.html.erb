@@ -1,0 +1,53 @@
+<h3 class="default">
+    <%= @module_instance_activity_relation.events.count %> event link with this activity
+</h3>
+
+<table class="table default clickable" id="event_table">
+    <thead>
+    <tr>
+        <th>
+            Start
+        </th>
+
+        <th>
+            Students registered
+        </th>
+
+        <th>
+            Students present
+        </th>
+
+        <th>
+            Students absent
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @module_instance_activity_relation.events.each do |event| %>
+        <tr href="<%= module_instance_activity_relation_path(event) %>">
+            <td>
+                <%= event.datetime.to_s %>
+            </td>
+
+            <td>
+                <%= event.students.count %>
+            </td>
+
+            <td>
+                <%= event.module_instance_event_student_relations.where(present: true).count %>
+            </td>
+
+            <td>
+                <%= event.module_instance_event_student_relations.where(absent: true).count %>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<script>
+    $(function(){
+        defaultDatatable($('#event_table'));
+    })
+</script>

@@ -1,0 +1,131 @@
+<h3 class="default">
+    Groups where <%= @student.login %> was involved
+</h3>
+
+<% groups = @student.instance_activity_group_student_relationships.includes(:group, :project, :leader_involved, :members_involved, :students, :module_instance, :epitech_module, :module_activity) %>
+
+<div id="accordion_groups">
+    <h3 class="default">
+        Actual projects
+    </h3>
+
+    <div>
+        <table class="default table clickable" id="groups_table_actual">
+            <thead>
+            <tr>
+                <th>
+                    Project
+                </th>
+
+                <th>
+                    Module
+                </th>
+
+                <th>
+                    Date (end)
+                </th>
+
+                <th>
+                    Role
+                </th>
+
+                <th>
+                    Members
+                </th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            <% groups.each do |group_relation| %>
+                <% next if group_relation.students.size <= 1 %>
+                <% next if group_relation.project.end < Date.today %>
+
+                <tr href="<%= instance_activity_group_path(group_relation.group) %>" popup="true">
+                    <td>
+                        <%= group_relation.module_activity.title %>
+                    </td>
+
+                    <td>
+                        <%= "#{group_relation.epitech_module.name} (#{group_relation.epitech_module.code})" %>
+                    </td>
+
+                    <td>
+                        <%= group_relation.project.end %>
+                    </td>
+
+                    <td>
+                        <%= group_relation.leader ? 'Leader' : 'Member' %>
+                    </td>
+
+                    <td>
+                        <%= (group_relation.students.map {|student| student.login}).join(', ') %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="default">
+        Old projects
+    </h3>
+
+    <div>
+        <table class="default table clickable" id="groups_table_old">
+            <thead>
+            <tr>
+                <th>
+                    Project
+                </th>
+
+                <th>
+                    Module
+                </th>
+
+                <th>
+                    Date (end)
+                </th>
+
+                <th>
+                    Role
+                </th>
+
+                <th>
+                    Members
+                </th>
+
+            </tr>
+            </thead>
+
+            <tbody>
+            <% groups.each do |group_relation| %>
+                <% next if group_relation.students.size <= 1 %>
+                <% next if group_relation.project.end > Date.today %>
+
+                <tr href="<%= instance_activity_group_path(group_relation.group) %>" popup="true">
+                    <td>
+                        <%= group_relation.module_activity.title %>
+                    </td>
+
+                    <td>
+                        <%= "#{group_relation.epitech_module.name} (#{group_relation.epitech_module.code})" %>
+                    </td>
+
+                    <td>
+                        <%= group_relation.project.end %>
+                    </td>
+
+                    <td>
+                        <%= group_relation.leader ? 'Leader' : 'Member' %>
+                    </td>
+
+                    <td>
+                        <%= (group_relation.students.map {|student| student.login}).join(', ') %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>

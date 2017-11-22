@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="default">
+            Edit <%= @group.title %> group
+        </h3>
+    </div>
+
+    <form class="col-xs-6 form-horizontal default">
+        <div class="form-group" style="font-size: 20px">
+            <label class="col-xs-3 control-label">Actual permission :</label>
+            <div class="col-xs-9">
+                <p class="form-control-static">
+                    <%= @group.access_level %>
+                </p>
+            </div>
+        </div>
+    </form>
+
+    <div class="col-xs-6">
+        <%= bootstrap_form_for(@group, class: 'group-edit') do |f| %>
+            <%= f.select :access_level, options_for_select(Group.access_levels.select {|access| current_user.check_allowed access }.map { |access| [access[0].humanize, access[0]]}, selected: @group.access_level), class: "form-control", hide_label: true %>
+            <%= f.submit :submit, class: 'btn btn-success pull-right' %>
+        <% end %>
+    </div>
+
+    <div class="col-xs-12">
+
+        <ul class="default">
+            <li>
+                <h4>Lvl 0 : Forbiden</h4>
+                <p>
+                    Not allowed to login on watchdog<br/>
+                    This is the default value for any groups<br/>
+                </p>
+            </li>
+
+            <li>
+                <h4>Lvl 1 : Assistant</h4>
+                <p>
+                    Allowed on Watchdog<br/>
+                    Allowed to access the student view<br/>
+                    Allowed to create ticket on students<br/>
+                    Allowed to access tickets where he is assigned<br/>
+                </p>
+            </li>
+
+            <li>
+                <h4>Lvl 2 : Ape</h4>
+                <p>
+                    Allowed to follow students<br/>
+                    Allowed to access any students checkups<br/>
+                    Allowed to access any tickets<br/>
+                    Allowed to access / create checkups on students<br/>
+                </p>
+            </li>
+        </ul>
+    </div>
+
+</div>
+

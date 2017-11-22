@@ -1,0 +1,41 @@
+<div id="missing_students">
+    <h4 class="default">
+        <%= @module_instance.students_not_registered.count %> missing students
+    </h4>
+
+    <table class="table picturable clickable default">
+        <thead>
+        <tr>
+            <th>
+                Login
+            </th>
+
+            <th>
+                Semester name
+            </th>
+
+            <th>
+                Promo
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @module_instance.students_not_registered.includes(:semester).each do |student| %>
+            <tr picture="<%= student.picture %>" href="<%= student_path(student.login) %>" popup='true'>
+                <td>
+                    <%= student.login %>
+                </td>
+
+                <td>
+                    <%= student_print_semester_name student %>
+                </td>
+
+                <td>
+                    <%= student.promo %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>

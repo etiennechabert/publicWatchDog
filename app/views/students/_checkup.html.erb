@@ -1,0 +1,10 @@
+<% case @student.scholar_year %>
+<% when 1 %>
+    <%= render 'students/first_year_checkups/form', student: @student %>
+<% when 22 %>
+    <%= render 'students/second_year_checkups/form', student: @student %>
+<% when 33 %>
+    <%= render 'students/third_year_checkups/form', student: @student %>
+<% else %>
+    <%= render 'students/first_year_checkups/form', student: @student %>
+<% end %>

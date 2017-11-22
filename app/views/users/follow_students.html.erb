@@ -1,0 +1,54 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'users/follow_students' %>
+<% end %>
+
+<h3 class="default">Follow new students</h3>
+
+<div id="students_filter" class="row default-form">
+    <%= bootstrap_form_tag(layout: :inline, authenticity_token: false) do |f| %>
+        <div class="large-field">
+            <%= f.select 'School', [], {}, {name: 'students[school_id]', id: 'school', class: 'default-field', title: ''} %>
+            <%= f.select 'Course', [], {}, {name: 'students[course]', id: 'course', class: 'default-field', title: '', disabled: true} %>
+            <%= f.select 'Semester', [], {}, {name: 'students[semester]', id: 'semester', class: 'default-field', title: '', disabled: true} %>
+        </div>
+
+        <div class="small-field">
+            <%= f.select 'Promotion', [], {}, {name: 'students[promo]', id: 'promo', class: 'default-field', title: '', disabled: true} %>
+            <%= f.select 'Location', [], {}, {name: 'students[location]', id: 'location', class: 'default-field', title: '', disabled: true} %>
+        </div>
+
+        <div class="small-field">
+            <%= f.select 'Student start', [], {}, {name: 'students[login_start]', id: 'login_start', class: 'autocomplete-field', title: '', disabled: true, 'data-live-search' => "true", 'data-size' => 10} %>
+            <%= f.select 'Student end', [], {}, {name: 'students[login_end]', id: 'login_end', class: 'autocomplete-field', title: '', disabled: true, 'data-live-search' => "true", 'data-size' => 10} %>
+        </div>
+
+        <div id="student_filter_actions">
+            <%= button_tag 'Search', class: 'btn btn-primary col-md-2', id: :search_students, type: :button %>
+            <%= button_tag 'Follow', class: 'btn btn-success col-md-2', id: :follow_students, type: :button %>
+            <%= button_tag 'Wait...', class: 'btn disabled col-md-2', id: :wait_button, type: :button %>
+        </div>
+    <% end %>
+</div>
+
+<h4 id="result_details" class="default">Use the filters</h4>
+<table class="table row default picturable" id="students_results">
+    <thead>
+    <tr>
+        <th>
+            Login
+        </th>
+        <th>
+            Promotion
+        </th>
+        <th>
+            Semester
+        </th>
+        <th>
+            Location
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    </tbody>
+</table>

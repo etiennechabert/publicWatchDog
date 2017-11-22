@@ -1,0 +1,9 @@
+<h2 class="default">
+    <% if params[:student_login] %>
+        New Ticket for <%= params[:student_login] %>
+    <% else %>
+        New Ticket %>
+    <% end %>
+</h2>
+
+<%= render 'form' %>

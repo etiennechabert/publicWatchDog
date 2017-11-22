@@ -1,0 +1,119 @@
+<h3 style="margin: 20px 0" class="default">
+    Students you actually follow (<%= @students.count %>)
+    <%= link_to 'Follow new students', follow_students_users_path, class: 'btn btn-success pull-right' %>
+    <%= button_tag 'Flush all students', class: 'btn btn-danger pull-right', id: 'flush_students' %>
+</h3>
+
+<% if @students.empty? %>
+    <h4 style="text-align: center" class="default">
+        You are not following any students yet
+    </h4>
+<% else %>
+    <table class="table default picturable clickable">
+        <thead>
+        <tr>
+            <th>
+                Login
+            </th>
+
+            <th>
+                Promotion
+            </th>
+
+            <th>
+                City
+            </th>
+
+            <th>
+                Semester
+            </th>
+
+            <th>
+                Followed_by
+            </th>
+
+            <th>
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @students.each do |student| %>
+            <tr href="<%= student_path(student.login) %>" picture="<%= student.picture %>" popup="true">
+                <td>
+                    <%= student.login %>
+                </td>
+
+                <td>
+                    <%= student.promo %>
+                </td>
+
+                <td>
+                    <%= student.location %>
+                </td>
+
+                <td>
+                    <%= student_print_semester_name student %>
+                </td>
+
+                <td>
+                    <%= (student.users.map {|user| user.login }).join(', ') %>
+                </td>
+
+                <td>
+                    <%= button_tag 'Followed', class: 'btn btn-success follow-action', id: student.login, role: :button %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+<% end %>
+
+<script>
+    $(".table").dataTable({
+        "order": [[ 0, "asc" ]],
+        "bPaginate": false
+    });
+
+    $("#flush_students").confirm({
+                text: "You are going to remove your relations with <%= @students.count %> students ! Are you sure ?",
+                title: "Confirmation required",
+                confirm: function(){
+                    window.location.href = Routes.followed_students_users_path({event: 'flush'});
+                },
+                confirmButton: "Yes",
+                cancelButton: "No, Abort",
+                confirmButtonClass: "btn-success",
+                cancelButtonClass: "btn-danger",
+                dialogClass: "modal-dialog modal-lg"
+            }
+    );
+
+    $(".follow-action").click(function(ui){
+        var element = $("#" + ui.target.id);
+        if (element.hasClass('btn-success')) {
+            event = 'remove';
+            oldClassName = 'btn-success';
+            newClassName = 'btn-danger';
+            text = 'Not followed';
+        }
+        else {
+            event = 'add';
+            oldClassName = 'btn-danger';
+            newClassName = 'btn-success';
+            text = 'Followed';
+        }
+
+        element.addClass('disabled');
+
+        $.ajax({
+            url: Routes.follow_student_users_path({student: element.attr('id'), event: event}),
+            success: function(data){
+                element.removeClass('disabled');
+                element.removeClass(oldClassName);
+                element.addClass(newClassName);
+                element.html(text);
+            }
+        });
+    });
+</script>

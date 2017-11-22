@@ -1,0 +1,17 @@
+<%= form_for(@module_instance_student_relations) do |f| %>
+  <% if @module_instance_student_relations.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@module_instance_student_relations.errors.count, "error") %> prohibited this epitech_module_instance_student_relationship from being saved:</h2>
+
+      <ul>
+      <% @module_instance_student_relations.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

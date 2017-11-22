@@ -1,0 +1,19 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'users/followed_students_tables' %>
+<% end %>
+
+<% if current_user.students.empty? %>
+    <h3 style="text-align: center">
+        <%= link_to 'Follow your students first', follow_students_users_path, class: 'btn btn-primary btn-lg' %>
+    </h3>
+<% else %>
+    <div class="row">
+        <div class="col-md-3" style="position: absolute; right: 20px" id="year_selection">
+            <%= bootstrap_form_tag do |f| %>
+                <%= f.select(:scholar_year, ModuleInstance.pluck(:scholar_year).uniq.sort.reverse, {hide_label: true, selected: @scholar_year}) %>
+            <% end %>
+        </div>
+
+        <%= render 'students/condensed_results/table', {students: @students, scholar_year: @scholar_year, display_login: true, table_class: 'picturable clickable'} %>
+    </div>
+<% end %>

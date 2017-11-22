@@ -1,0 +1,237 @@
+<div class="row nopadding">
+    <div class="col-xs-3 default">
+        <h4 class="text-center">
+            Last checkup
+        </h4>
+
+        <% checkup = @student.last_checkup %>
+
+        <% if checkup %>
+            <div min="0" max="100" value="<%= checkup.success_chance %>" id="student_last_checkup">
+                <h4 class="text-center">
+                    <%= checkup.title %>
+                </h4>
+
+                <p>
+                    <%= checkup.comment %>
+                </p>
+            </div>
+        <% else %>
+            <h5 class="text-center">
+                No checkup yet
+            </h5>
+        <% end %>
+    </div>
+
+    <div class="col-xs-3 default">
+        <h4 class="text-center">
+            Actual projects
+        </h4>
+
+        <table class="table default-radius clickable">
+            <thead>
+            <tr>
+                <th>
+                    Project
+                </th>
+
+                <th>
+                    Started since
+                </th>
+
+                <th>
+                    Remaining days
+                </th>
+            </tr>
+            </thead>
+
+            <tbody style="background-color: #004c00">
+            <% @student.active_projects.order(:end).each do |project| %>
+                <tr class="colorable-tr" title="<%= project.epitech_module.name %>" href="<%= module_instance_activity_relation_path(project) %>">
+                    <td>
+                        <%= project.module_activity.title %>
+                    </td>
+
+                    <td>
+                        <%= days_ago(project.begin) + " days ago" %>
+                    </td>
+
+                    <td>
+                        <%= days_left(project.end) + " days left" %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+
+        </table>
+
+        <h4 class="text-center">
+            Missing projects
+        </h4>
+
+        <table class="table default-radius">
+            <thead>
+            <tr>
+                <th>
+                    Project
+                </th>
+
+                <th>
+                    Started since
+                </th>
+
+                <th>
+                    Remaining days
+                </th>
+            </tr>
+            </thead>
+
+            <tbody style="background-color: #4c0000">
+            <% (@student.available_projects.order(:end) - @student.active_projects).each do |project| %>
+                <tr class="colorable-tr" title="<%= project.epitech_module.name %>" href="<%= module_instance_activity_relation_path(project) %>">
+                    <td>
+                        <%= project.module_activity.title %>
+                    </td>
+
+                    <td>
+                        <%= days_ago(project.begin) + " days ago" %>
+                    </td>
+
+                    <td>
+                        <%= days_left(project.end) + " days ago" %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-xs-3">
+        <h4 class="default text-center">
+            Engagements
+        </h4>
+
+        <%
+           events_relations = @student.module_instance_event_student_relations.includes(:event, :module_instance_activity_relation, :module_activity)
+           today = Date.today
+           one_month_ago = 1.month.ago
+           in_a_month = Date.today + 1.month
+        %>
+
+        <h5 class="default">
+            Next month events
+        </h5>
+
+        <table class="table clickable default default-radius" id="student_engagements">
+            <thead>
+                <tr>
+                    <th>
+                        Event
+                    </th>
+
+                    <th>
+                        Days left days
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <% (events_relations.sort {|a, b| a.event.datetime <=> b.event.datetime}).each do |event_relation| %>
+                <% next unless event_relation.event.datetime >= today && event_relation.event.datetime < in_a_month %>
+                <% next unless event_relation.module_instance_activity_relation %>
+            <tr class="colorable-tr" style="background-color: #004c00" href="<%= module_instance_activity_relation_path(event_relation.module_instance_activity_relation) %>">
+                <td>
+                    <%= event_relation.event.module_activity.title %>
+                </td>
+
+                <td>
+                    <%= days_left event_relation.event.datetime %>
+                </td>
+            </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <h5 class="default">
+            Last month events
+        </h5>
+
+        <table class="table clickable default default-radius" id="student_engagements">
+            <thead>
+            <tr>
+                <th>
+                    Event
+                </th>
+
+                <th>
+                    Days ago
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% (events_relations.sort {|a, b| b.event.datetime <=> a.event.datetime}).each do |event_relation| %>
+                <% next unless event_relation.event.datetime >= one_month_ago && event_relation.event.datetime < today %>
+                <%
+                   color = '#004c00'
+                   color = '#4c0000' if event_relation.absent
+                %>
+                <tr class="colorable-tr" style="background-color: <%= color %>" href="<%= module_instance_activity_relation_path(event_relation.module_instance_activity_relation) if event_relation.module_instance_activity_relation %>">
+                    <td>
+                        <%= event_relation.event.module_activity.title unless event_relation.event.module_activity.nil? %>
+                    </td>
+
+                    <td>
+                        <%= days_ago event_relation.event.datetime %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-xs-3">
+        <h4 class="default text-center">
+            Last grades
+        </h4>
+
+        <table class="table clickable default default-radius" id="student_last_grades">
+            <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+
+                <th>
+                    Title
+                </th>
+
+                <th>
+                    Grade
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% @student.grades.order(date: 'desc').includes(:module_activity).limit(10).each do |grade| %>
+                <tr class="colorable-tr" href="<%= module_instance_activity_relation_path(grade.module_instance_activity_relation) %>" min="<%= grade.module_instance_activity_relation.min %>" max="<%= grade.module_instance_activity_relation.max %>" value="<%= grade.grade %>">
+                    <td>
+                        <%= grade.date %>
+                    </td>
+
+                    <td>
+                        <%= grade.module_activity.title %>
+                    </td>
+
+                    <td>
+                        <%= grade.grade %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+

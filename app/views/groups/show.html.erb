@@ -1,0 +1,57 @@
+<div class="row">
+    <h3 class="default col-xs-10">
+        Details about group <%= @group.title %> - <%= @group.users.count %> member(s)
+    </h3>
+
+    <div class="col-xs-2">
+        <h3 class="text-right">
+            <%= link_to 'Edit', edit_group_path(@group), class: 'btn btn-warning' %>
+        </h3>
+    </div>
+</div>
+
+<div class="row">
+    <table class="table default clickable col-xs-12" id="group_table">
+        <thead>
+        <tr>
+            <th>
+                Login
+            </th>
+
+            <th>
+                Last connection
+            </th>
+
+            <th>
+                Connection count
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @group.users.each do |user| %>
+            <tr href="<%= user_path(user.login) %>" popup="true">
+                <td>
+                    <%= user.login %>
+                </td>
+
+                <td>
+                    <%= user.current_sign_in_at.to_s %>
+                </td>
+
+                <td>
+                    <%= user.sign_in_count %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    defaultDatatable($('#group_table'));
+</script>
+
+
+
+

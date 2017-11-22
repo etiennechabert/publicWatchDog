@@ -1,0 +1,40 @@
+<% correlation_data = ModuleInstance.correlation_stats(ModuleInstance.students_stats(@students, 2014)) %>
+<% keys = correlation_data.keys %>
+
+<table class="table default colorable infoable" id="correlation_table">
+    <thead>
+    <tr>
+        <th>Relation name</th>
+        <% keys.each do |k| %>
+            <th color='true' good="true"> <%= k %> </th>
+        <% end %>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% correlation_data.each do |name, data| %>
+    <tr>
+        <td>
+            <%= name %>
+        </td>
+
+        <% keys.each do |k| %>
+            <%
+               e = data[k]
+               if e
+            %>
+                <td data="<%= (e * 100).to_i %>">
+                    <%= number_to_percentage(e * 100, precision: 0) %>
+                </td>
+            <% else %>
+                <td></td>
+            <% end %>
+        <% end %>
+    </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<script>
+    defaultDatatable($('#correlation_table'));
+</script>

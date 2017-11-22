@@ -1,0 +1,95 @@
+<div class="default col-xs-4" id="student">
+    <div class="col-xs-6 picture">
+        <%= image_tag @ticket.student.picture, style: 'width: 100%' %>
+    </div>
+
+    <div class="col-xs-6 details">
+        <h3>
+            Student
+        </h3>
+
+        <ul class="list-unstyled">
+            <li>
+                Login : <%= @ticket.student.login %>
+            </li>
+            <li>
+                Location : <%= @ticket.student.location %>
+            </li>
+            <li>
+                Promotion : <%= @ticket.student.promo %>
+            </li>
+            <li>
+                Semester : <%= @ticket.student.semester.name %>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="col-xs-4">
+    <h3 class="text-center default">
+        <%= @ticket.title %>
+    </h3>
+
+    <textarea readonly class="col-xs-12 form-control" style="font-size: 20px; margin-bottom: 10px"><%= @ticket.description %></textarea>
+
+    <ul class="list-unstyled default col-xs-12" id="details">
+        <li>
+            Ticket id: <%= @ticket.id %>
+        </li>
+
+        <li>
+            Category : <%= @ticket.category %>
+        </li>
+
+        <li>
+            Status : <%= @ticket.status %>
+        </li>
+
+        <li>
+            Created : <%= time_ago(@ticket.created_at) %>
+        </li>
+
+        <li>
+            Last update : <%= time_ago(@ticket.updated_at) %>
+        </li>
+    </ul>
+
+    <%
+       if @ticket.status == "new_one"
+           @class="alert alert-danger"
+       elsif @ticket.status == "working_on"
+           @class="alert alert-info"
+       elsif @ticket.status == "pending"
+           @class="alert alert-warning"
+       else
+           @class="alert alert-success"
+       end
+    %>
+
+    <div class="<%= @class %> col-xs-12" style="margin-bottom: 0">
+        This ticket is <strong><%= @ticket.status %></strong>
+    </div>
+</div>
+
+<div class="col-xs-4 default" id="author">
+    <div class="col-xs-6 default text-right details">
+        <h3>
+            Author
+        </h3>
+
+        <ul class="list-unstyled">
+            <li>
+                Login : <%= @ticket.user.login %>
+            </li>
+
+            <li>
+                Groups : <%= (@ticket.user.groups.map{|g| g.title}).join((', ')) %>
+            </li>
+        </ul>
+    </div>
+
+    <div class="col-xs-6 picture">
+        <%= image_tag @ticket.user.picture, style: 'width: 100%' %>
+    </div>
+</div>
+

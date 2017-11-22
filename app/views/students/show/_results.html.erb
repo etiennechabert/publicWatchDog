@@ -1,0 +1,15 @@
+<h3 class="default">
+    Results analysis
+</h3>
+
+<div id="results_accordion" class="default">
+    <% @student.module_instances.group(:scholar_year).order('scholar_year DESC').each do |module_instance| %>
+        <%= render('students/show/result_table', {students: Student.where(login: @student.login), scholar_year: module_instance.scholar_year, display_login: false, table_class: ''}) %>
+    <% end %>
+</div>
+
+<script>
+    $(function() {
+        $("#results_accordion").accordion();
+    })
+</script>

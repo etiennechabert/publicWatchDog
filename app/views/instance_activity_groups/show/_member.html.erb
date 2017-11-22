@@ -1,0 +1,23 @@
+<div class="member_detail col-xs-4 default">
+    <ul class="list-unstyled">
+        <li>
+            Login: <%= link_to student.login, student_path(student.login) %>
+        </li>
+        <li>
+            Credits own: <%= student.credits %>
+        </li>
+        <li>
+            Credits possible : <%= student.credits_possible %>
+        </li>
+        <li>
+            GPA : <%= student.get_gpa %>
+        </li>
+    </ul>
+</div>
+
+<div class="member_netsoul col-xs-8">
+    <div class="cnavas-holder">
+        <canvas class="netsoul-chart-group-member" data="<%= student.login %>" height="250" style="height: 250px; width: 100%">
+        </canvas>
+    </div>
+</div>

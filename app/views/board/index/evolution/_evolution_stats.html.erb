@@ -1,0 +1,78 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'board/board_evolution' %>
+<% end %>
+
+<div class="row">
+    <div class="col-xs-6">
+        <table class="table default choosable colorable" id="evolution_table">
+            <thead>
+            <tr>
+                <th>
+                    Login
+                </th>
+
+                <th color="true" good="true">
+                    Credits
+                </th>
+
+                <th color="true" good="true">
+                    Grade average start
+                </th>
+
+                <th color="true" good="true">
+                    Grade average end
+                </th>
+
+                <th color="true" good="true">
+                    Grade evolution
+                </th>
+
+                <th color="true" good="true">
+                    Chance
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% current_user.students.each do |student| %>
+                <tr data="<%= student.login %>">
+                    <td>
+                        <%= student.login %>
+                    </td>
+
+                    <td>
+                        <%= student.credits %>
+                    </td>
+
+                    <td>
+                        <%= student.get_grades_average_start.round(2) %>
+                    </td>
+
+                    <td>
+                        <%= student.get_grades_average_end.round(2) %>
+                    </td>
+
+                    <td data="<%= (student.get_grades_evolution * 100).round(0) %>">
+                        <%= (student.get_grades_evolution * 100).round(0) %>%
+                    </td>
+
+                    <td data="<%= student.success_chance %>">
+                        <%= student.success_chance %>%
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-xs-6">
+        <ul id="evolution_list" class="action_list">
+        </ul>
+
+        <div id="evolution_chart">
+            <h3 class="default">
+                Choose a student to see the chart
+            </h3>
+        </div>
+    </div>
+</div>

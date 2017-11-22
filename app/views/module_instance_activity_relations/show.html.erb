@@ -1,0 +1,119 @@
+<div class="row default">
+    <div class="col-xs-12">
+        <div class="col-xs-6 nopadding">
+            <h3>
+                Details for <%= link_to @module_activity.title, module_activity_path(@module_activity) %>
+            </h3>
+
+            <h4>
+                <%= "#{@epitech_module.name} (#{@module_instance.scholar_year} - #{@epitech_module.code} - #{@module_instance.code})" %>
+            </h4>
+
+            <p>
+                <%= @module_activity.description %>
+            </p>
+        </div>
+
+        <div class="col-xs-6 nopadding">
+            <%= render 'module_instance_activity_relations/show/timeline', project: @module_instance_activity_relation %>
+        </div>
+    </div>
+
+    <div class="col-xs-6">
+        <ul class="action_list">
+            <li title="Epitech Intranet">
+                <%= link_to @module_instance_activity_relation.intra_link, class: 'btn btn-primary' do %>
+                    <span class="fa fa-globe" aria-hidden="true"></span>
+                <% end %>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div id="tabs">
+            <ul>
+                <% if @module_instance_activity_relation.is_project %>
+                    <li>
+                        <a href="#groups">
+                            Groups
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#missing_groups">
+                            Students without Group
+                        </a>
+                    </li>
+                <% end %>
+
+                <% if @module_instance_activity_relation.is_grades %>
+                    <li>
+                        <a href="#grades">
+                            Grades
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#missing_grades">
+                            Missing students grades
+                        </a>
+                    </li>
+                <% end %>
+
+                <% unless @module_instance_activity_relation.events.empty? %>
+                    <li>
+                        <a href="#events">
+                            Events
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#missing_events">
+                            Missing students event
+                        </a>
+                    </li>
+                <% end %>
+            </ul>
+
+            <% if @module_instance_activity_relation.is_project %>
+                <div id="groups">
+                    <%= render 'module_instance_activity_relations/show/groups' %>
+                </div>
+
+                <div id="missing_groups">
+                    <%= render 'module_instance_activity_relations/show/missing_students', existing_students: @module_instance_activity_relation.students, block_for: 'project' %>
+                </div>
+            <% end %>
+
+            <% if @module_instance_activity_relation.is_grades %>
+                <div id="grades">
+                    <%= render 'module_instance_activity_relations/show/grades' %>
+                </div>
+
+                <div id="missing_grades">
+                    <%= render 'module_instance_activity_relations/show/missing_students', existing_students: @module_instance_activity_relation.students_by_grades, block_for: 'grades' %>
+                </div>
+            <% end %>
+
+            <% unless @module_instance_activity_relation.events.empty? %>
+                <div id="events">
+                    <%= render 'module_instance_activity_relations/show/events' %>
+                </div>
+
+                <div id="missing_events">
+                    <%= render 'module_instance_activity_relations/show/missing_students', existing_students: @module_instance_activity_relation.students_by_events, block_for: 'events' %>
+                </div>
+            <% end %>
+
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('#tabs').tabs();
+    });
+</script>

@@ -1,0 +1,17 @@
+<%= form_for(@epitech_module) do |f| %>
+  <% if @epitech_module.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@epitech_module.errors.count, "error") %> prohibited this epitech_module from being saved:</h2>
+
+      <ul>
+      <% @epitech_module.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

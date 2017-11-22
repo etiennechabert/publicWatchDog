@@ -1,0 +1,56 @@
+<div class="row">
+    <h3 class="default">
+        Watchdog users (<%= @users.count %>)
+    </h3>
+
+
+    <table class="table default clickable">
+        <thead>
+        <tr>
+            <th>
+                Login
+            </th>
+
+            <th>
+                Last connection
+            </th>
+
+            <th>
+                Connection count
+            </th>
+
+            <th>
+                Groups
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @users.includes(:groups, :group_user_relations).each do |user| %>
+            <tr href="<%= user_path(user.login) %>" popup="true">
+                <td>
+                    <%= user.login %>
+                </td>
+
+                <td>
+                    <%= days_ago(user.current_sign_in_at) + " days ago" %>
+                </td>
+
+                <td>
+                    <%= user.sign_in_count %>
+                </td>
+
+                <td>
+                    <%= user.groups.map(&:title).join(', ') %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(function() {
+        defaultDatatable($('table'));
+    });
+</script>

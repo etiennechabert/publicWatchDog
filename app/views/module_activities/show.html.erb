@@ -1,0 +1,87 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'module_activities/evolution_chart' %>
+<% end %>
+
+<% @module_activity.module_instance_activity_relations_extended %>
+
+<div class="row default">
+    <h1>
+        <%= "#{@module_activity.title} - #{@module_activity.activity_title}" %>
+    </h1>
+</div>
+
+<div class="row hideable default">
+    <h3>Evolution stats</h3>
+
+    <div class="col-md-6">
+        <table class="table" id="average_table">
+            <thead>
+            <tr>
+                <th>
+                    Location
+                </th>
+
+                <% ModuleInstance.where(epitech_module_id: @module_activity.epitech_module_id).order(:scholar_year).select(:scholar_year).distinct.each do |elem| %>
+                    <th>
+                        <%= elem.scholar_year %>
+                    </th>
+                <% end %>
+            </tr>
+            </thead>
+
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-md-6" id="chart"></div>
+</div>
+
+<div class="row hideable default">
+
+    <h3>
+        Activity instances (<%= @module_activity.module_instances.count %>)
+    </h3>
+
+    <table class="table clickable" id="module_activity_instances">
+        <thead>
+        <tr>
+            <th>
+                Module instance
+            </th>
+
+            <th>
+                Location
+            </th>
+
+            <th>
+                Scholar year
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @module_activity.module_instance_activity_relations.includes(:module_instance).each do |module_activity_instance| %>
+            <tr href="<%= module_instance_activity_relation_path(module_activity_instance) %>" popup="true">
+                <td>
+                    <%= module_activity_instance.module_instance.code %>
+                </td>
+
+                <td>
+                    <%= module_activity_instance.module_instance.location %>
+                </td>
+
+                <td>
+                    <%= module_activity_instance.module_instance.scholar_year %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $("#module_activity_instances").dataTable({
+        'bPaginate' : false
+    });
+</script>

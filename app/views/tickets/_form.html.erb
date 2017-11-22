@@ -1,0 +1,41 @@
+<div class="row default-form">
+    <%= bootstrap_form_for(@ticket) do |f| %>
+
+        <div class="col-xs-4">
+            <% if params[:student_login] %>
+                <%= f.text_field :student_login, value: params[:student_login], readonly: true %>
+            <% else %>
+                <%= f.text_field :student_login %>
+            <% end %>
+        </div>
+
+        <div class="col-xs-4">
+            <%= f.text_field :title, {required: true} %>
+        </div>
+
+        <div class="col-xs-4">
+            <%= f.select :category, options_for_select(Ticket.categories.map{|k, v| [k.humanize, k]}) %>
+        </div>
+
+        <div class="col-xs-12">
+            <%= f.text_area :description, {required: true} %>
+        </div>
+
+        <%= f.submit :create, class: 'btn btn-success pull-right' %>
+        <%= button_tag :cancel, class: 'btn btn-warning pull-right', onclick: 'goBack()' %>
+    <% end %>
+</div>
+
+<script>
+    var jqueryElement;
+    var login;
+
+    autocompleteStudent($("#ticket_student_login"), function (event, ui){
+        login = ui.item.id;
+        jqueryElement = event.target;
+        setTimeout(function(){
+            jqueryElement.value = login;
+        }, 0);
+        $("#ticket_title").focus();
+    });
+</script>

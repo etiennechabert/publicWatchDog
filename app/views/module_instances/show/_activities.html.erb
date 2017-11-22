@@ -1,0 +1,40 @@
+<div id="<%= type %>">
+    <table class="table default clickable ">
+        <thead>
+        <tr>
+            <th>
+                Activities linked with this instance
+            </th>
+            <th>
+                Begin
+            </th>
+            <th>
+                End
+            </th>
+            <th>
+                Type
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @module_instance.module_instance_activity_relations.includes(:module_activity).each do |activity| %>
+            <% next unless activity.module_activity.activity_code == type %>
+            <tr href="<%= module_instance_activity_relation_path(activity) %>" popup="true">
+                <td>
+                    <%= activity.module_activity.title %>
+                </td>
+                <td>
+                    <%= activity.begin %>
+                </td>
+                <td>
+                    <%= activity.end %>
+                </td>
+                <td>
+                    <%= activity.module_activity.activity_title %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>

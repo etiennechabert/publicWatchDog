@@ -1,0 +1,60 @@
+<nav id="top_menu" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <%= link_to root_path, class: 'navbar-brand' do %>
+                <%= image_tag 'logo-epitech-white.png', alt: "Epitech", id: 'main_logo' %>
+            <% end %>
+        </div>
+
+        <form class="navbar-form navbar-left" role="search">
+            <div class="form-group navbar-element" id="student_search">
+                <input type="text" class="form-control navbar-inverse" placeholder="Login search ...">
+                <span class="fa fa-clock-o fa-2x fa-inverse"></span>
+            </div>
+        </form>
+
+        <ul class="jq-menu nav navbar-nav navbar-right" id="top_menu_actions">
+            <li>
+                <a href="#" id="actions_button">
+                    Actions
+                    <span class="caret"></span>
+                </a>
+                <ul class>
+                    <li>
+                        <a href="#">Users</a>
+                        <ul>
+                            <li>
+                                <%= link_to 'Users list', users_path %>
+                            </li>
+                            <li>
+                                <%= link_to 'View your profile', user_path(current_user.login) %>
+                            </li>
+                            <li>
+                                <%= link_to 'Edit your profile', edit_user_path(current_user.login) %>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Students</a>
+                        <ul>
+                            <li><%= link_to 'Your students', followed_students_users_path %></li>
+                            <li><%= link_to 'Follow students', follow_students_users_path %></li>
+                            <li><%= link_to 'Resume', followed_students_resume_users_path %></li>
+                            <li><%= link_to 'Mandatories', followed_students_mandatory_users_path %></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#">Groups</a>
+                        <ul>
+                            <li><%= link_to 'Groups list', groups_path %></li>
+                        </ul>
+                    </li>
+                    <li role="separator" class="divider"></li>
+                    <li><%= link_to 'Disconect', destroy_user_session_path, method: :delete %></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <%= render_breadcrumbs %>
+</nav>

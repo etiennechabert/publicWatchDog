@@ -1,0 +1,18 @@
+<h3 class="default">
+    Previous checkups
+</h3>
+
+<div id="checkups_content" class="default">
+    <% checkups_relation = @student.student_checkup_relations.order(id: :desc) %>
+
+    <% if checkups_relation.count == 0 %>
+        No checkups yet.
+    <% else %>
+        <% @student.student_checkup_relations.includes(:checkup, :user).order(id: :desc).each do |checkup_relation| %>
+            <% checkup = checkup_relation.checkup %>
+
+            <%= render 'students/first_year_checkups/show_element', checkup: checkup %>
+
+        <% end %>
+    <% end %>
+</div>

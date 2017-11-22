@@ -1,0 +1,210 @@
+<div class="row">
+    <h3>
+        <%= "#{@epitech_module.name}(#{@epitech_module.code})" %> Validations stats
+    </h3>
+
+    <div class="col-md-2 default" id="filter">
+        <div class="col-md-12">
+            <h4>Scholar Year</h4>
+
+            <% @epitech_module.module_instances.select(:scholar_year).distinct.order(:scholar_year).each do |result| %>
+                <div class="col-md-12">
+                    <%= label :scholar_year, result[:scholar_year] %>
+                    <%= check_box :scholar_year, result[:scholar_year] %>
+                </div>
+            <% end %>
+        </div>
+
+        <div class="col-md-12">
+            <h4>Code</h4>
+
+            <% @epitech_module.module_instances.select(:code).distinct.order(:code).each do |result| %>
+                <div class="col-md-12">
+                    <%= label :code, result[:code] %>
+                    <%= check_box :code, result[:code] %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+
+    <div class="col-md-10" id="chart">
+    </div>
+
+    <p id="display_details" class="default">
+    </p>
+</div>
+
+<style>
+    #display_details{
+        position: fixed;
+        top: 15px;
+        width: 100%;
+        text-align: center;
+        z-index: 10000;
+        background: transparent;
+        display: none;
+    }
+
+        .tick{
+            color: white;
+        }
+</style>
+
+<script>
+    var margin = {top: 20, right: 20, bottom: 30, left: 40},
+            width = $("#chart").width(),
+            height = 900;
+
+    var x = d3.scale.ordinal()
+            .rangeRoundBands([0, width], .1);
+
+    var y = d3.scale.linear()
+            .rangeRound([height, 0]);
+
+
+    // "grades":"-","A","Acquis","B","C","D","E"]
+    var color = d3.scale.ordinal()
+            .range(["#ffffff", "#00b159", "#00b159", "#00aedb", "#ffc425", "#f37735", "#d11141"].reverse());
+
+    var xAxis = d3.svg.axis()
+            .scale(x)
+            .orient("bottom");
+
+    var yAxis = d3.svg.axis()
+            .scale(y)
+            .orient("left")
+            .tickFormat(d3.format(".2s"));
+
+    var svg = d3.select("#chart").append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var year_number = 0;
+    function add_blank_year(instances){
+        var result = [];
+        var old = 0;
+        instances.forEach(function(elem){
+            if(elem.scholar_year != old)
+            {
+                result.push(elem.scholar_year);
+                year_number += 1;
+            }
+            old = elem.scholar_year;
+            result.push(elem.city + '-' + elem.scholar_year)
+        });
+        return result;
+    }
+
+    d3.xhr(Routes.validation_stats_epitech_module_path(<%= @epitech_module.id %>, {format: 'json'}), function(errors, data) {
+        var data = JSON.parse(data.response);
+        color.domain(data.grades.reverse());
+
+        x.domain(add_blank_year(data.instances));
+        y.domain([0, 100]);
+
+        data.instances.forEach(function(elem){
+            y0 = 0;
+            cp = elem;
+            elem.results = color.domain().map(function(grade) {
+                var res = (cp[grade] / cp['total']) * 100;
+                if (isNaN(res))
+                    res = 0;
+                return {grade: grade, y0: y0, y1: y0 += +res}
+            });
+        });
+
+        svg.append("g")
+                .attr("class", "x axis")
+                .attr("transform", "translate(0," + height + ")")
+                .call(xAxis);
+
+        svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+                .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .style("text-anchor", "end")
+                .text("%");
+
+        function print_grade(name, pourcent, value) { return name + ':' + Math.round(pourcent, 1) + '%(' + value + ')' }
+
+        function print_details(d) {
+            return d.city + '-' + d.scholar_year + '(' +
+                    print_grade('A', d.A / d.total * 100, d.A) + ',' +
+                    print_grade('B', d.B / d.total * 100, d.B) + ',' +
+                    print_grade('C', d.C / d.total * 100, d.C) + ',' +
+                    print_grade('D', d.D / d.total * 100, d.D) + ',' +
+                    print_grade('E', d.E / d.total * 100, d.E);
+        }
+
+        var state = svg.selectAll(".state")
+                .data(data.instances)
+                .enter().append("g")
+                .attr("class", "g")
+                .attr("transform", function(d) {
+                    return "translate(" + x(d.city + '-' + d.scholar_year) + ",0)";
+                })
+                .attr("text", function(d) {
+                    return print_details(d);
+                });
+
+        state.selectAll("rect")
+                .data(function(data) {
+                    return data.results;
+                })
+                .enter().append("rect")
+                .attr("width", x.rangeBand())
+                .attr("y", function(d) { return y(d.y1); })
+                .attr("height", function(d) {
+                    return y(d.y0) - y(d.y1);
+                })
+                .style("fill", function(d) {
+                    return color(d.grade);
+                });
+
+        var legend = svg.selectAll(".legend")
+                .data(color.domain().slice().reverse())
+                .enter().append("g")
+                .attr("class", "legend")
+                .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+        legend.append("rect")
+                .attr("x", width - 18)
+                .attr("width", 18)
+                .attr("height", 18)
+                .style("fill", color);
+
+        legend.append("text")
+                .attr("x", width - 24)
+                .attr("y", 9)
+                .attr("dy", ".35em")
+                .style("text-anchor", "end")
+                .text(function(d) {
+                    return d;
+                });
+
+        $(".g").mouseover(function(data, handler){
+            var element = $("#display_details");
+            element.text(data.target.parentNode.attributes.text.textContent);
+            element.show();
+        });
+
+        $(".g").mouseout(function(data, handler){
+            $("#display_details").hide();
+        })
+
+        $(".x g").each(function(index, element){
+            if (element.childNodes[1].textContent.indexOf('-') != -1)
+                element.remove();
+        });
+
+        $("#chart text, #chart path").each(function(index, element){
+            $(element).attr('fill', 'beige');
+        })
+    });
+
+</script>

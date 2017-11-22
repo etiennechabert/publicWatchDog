@@ -1,0 +1,84 @@
+<div class="row default">
+    <div class="col-xs-6">
+        <h3>
+            Group detailed view
+        </h3>
+
+        <h4>
+            Project : <%= link_to @group.project.module_activity.title, module_instance_activity_relation_path(@group.project) %>
+        </h4>
+
+        <h4>
+            Module : <%= link_to @group.project.module_instance.epitech_module.name, module_instance_path(@group.project.module_instance) %>
+        </h4>
+    </div>
+
+    <div class="col-xs-6">
+        <%= render 'module_instance_activity_relations/show/timeline', project: @group.project %>
+    </div>
+</div>
+
+<div class="row">
+    <h4 class="col-xs-12 default">
+        Group members (<%= @group.students.count %>)
+    </h4>
+
+    <ul class="col-xs-12 list-unstyled" id="group_list">
+        <% @group.leader.each do |leader| %>
+            <li class="group_leader row">
+                <%= render 'instance_activity_groups/show/member', student: leader, leader: true %>
+            </li>
+        <% end %>
+
+        <% @group.members.each do |member| %>
+            <li class="group_member row">
+                <%= render 'instance_activity_groups/show/member', student: member, leader: false %>
+            </li>
+        <% end %>
+    </ul>
+</div>
+
+<script>
+    function buildChartData(login) {
+        return {
+            labels: gon.data.project_days,
+            datasets: [
+                {
+                    data: gon.data[login].netsoul.map(function (e) {
+                        return (e.active_at_school / 60 / 60).toFixed(2)
+                    }),
+                    fillColor: "rgba(98, 105, 255, 0.5)",
+                    strokeColor: "rgba(151,187,255,1)",
+                    pointColor: "rgba(151,187,255,1)",
+                    pointStrokeColor: "rgba(0,0,255,1)",
+                    pointHighlightFill: "rgba(0,0,255,1)",
+                    pointHighlightStroke: "rgba(204,216,255,1)",
+                    label: login
+                },
+                {
+                    data: gon.data[login].netsoul.map(function(e){return (e.promo_average / 60 / 60).toFixed(2)}),
+                    fillColor: "rgba(220,220,220,0.2)",
+                    label: "Promo",
+                    pointColor: "rgba(220,220,220,1)",
+                    pointHighlightFill: "#fff",
+                    pointHighlightStroke: "rgba(220,220,220,1)",
+                    pointStrokeColor: "#fff",
+                    strokeColor: "rgba(220,220,220,1)"
+                }
+
+            ]
+        }
+    }
+
+    function buildChart(selector, login){
+        var ctx = $(selector).get(0).getContext("2d");
+        return new Chart(ctx).Line(buildChartData(login));
+    }
+
+    $(function(){
+        $('.netsoul-chart-group-member').each(function(index, element){
+            element = $(element);
+            buildChart(element, element.attr('data'));
+        });
+    });
+</script>

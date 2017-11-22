@@ -1,0 +1,119 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'tickets/assignation.js' %>
+<% end %>
+
+<div class="row">
+    <div class="col-md-6">
+        <h3 class="col-xs-12 default">
+            Users assigned (<%= @ticket.active_assignations.count %>)
+        </h3>
+
+        <table class="table default infoable col-xs-12" id="ticket_assignations_table">
+            <thead>
+                <tr>
+                    <th>
+                        Id (sort)
+                    </th>
+
+                    <th>
+                        User
+                    </th>
+
+                    <th>
+                        Number of messages
+                    </th>
+
+                    <th>
+                        Number of messages unread
+                    </th>
+
+                    <th>
+                        Assigned since
+                    </th>
+
+                    <th>
+                        Last visit
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody>
+            <% @ticket.ticket_assignations.where(ignored: false).includes(:user).each do |assignation| %>
+                <tr info="<%= Group.user_groups_to_string(assignation.user) %>">
+                    <td>
+                        <%= assignation.id %>
+                    </td>
+
+                    <td>
+                        <%= assignation.user.login %>
+                    </td>
+
+                    <td>
+                        <%= @ticket.user_messages(assignation.user).count %>
+                    </td>
+
+                    <td>
+                        <%= @ticket.unread_messages(assignation.user).count %>
+                    </td>
+
+                    <td>
+                        <%= time_ago(assignation.created_at) %>
+                    </td>
+
+                    <td>
+                        <%= time_ago(assignation.last_visit) %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <div class="col-xs-6 default-form">
+        <% if @ticket.is_assigned?(current_user) %>
+
+            <div class="form-group col-xs-6 pull-right">
+                <label class="control-label" for="assign_new_users">Add user</label>
+                <input id="assign_new_users" class="form-control" name="add_user">
+            </div>
+
+            <div class="col-xs-12" id="assignation_actions">
+                <button class="btn btn-danger pull-right" id="assignation_ignore">
+                    Ignore this ticket
+                </button>
+
+                <button class="btn btn-warning pull-right" id="assignation_cancel" style="display: none">
+                    Cancel new assignation(s)
+                </button>
+
+                <button class="btn btn-success pull-right" id="assignation_confirm" style="display: none">
+                    Confirm new assignation(s)
+                </button>
+            </div>
+
+            <div id="assignation_block" class="col-xs-12 text-right" style="display: none">
+                <h4 class="default">
+                    New assignations
+                </h4>
+
+                <ul class="list-unstyled">
+
+                </ul>
+            </div>
+        <% else %>
+            <div class="col-xs-12">
+                <button class="btn btn-success pull-right" id="assign_yourself">
+                    Assign yourself
+                </button>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        defaultDatatable($('#ticket_assignations_table'));
+    })
+</script>
+

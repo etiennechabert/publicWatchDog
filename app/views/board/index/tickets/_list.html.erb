@@ -1,0 +1,114 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'board/board_tickets' %>
+<% end %>
+
+<div id="tickets_accordion">
+    <h3>
+        Open tickets
+    </h3>
+    <div>
+        <div class="col-xs-12">
+            <div class="col-xs-6 text-center tickets-filter" id="buttons_status">
+                <h3 class="default">
+                    Status <span></span>
+                </h3>
+
+                <%
+                   result = count_by_enum(current_user, :status)
+                   class_result = class_by_enum(result)
+                %>
+
+                <ul>
+                    <li class="btn btn-danger <%= class_result[:new_one] %>" data="status=new_one">New(<%= result[:new_one] %>)</li>
+                    <li class="btn btn-info <%= class_result[:working_on] %>" data="status=working_on">Working on(<%= result[:working_on] %>)</li>
+                    <li class="btn btn-warning <%= class_result[:pending] %>" data="status=pending">Pending(<%= result[:pending] %>)</li>
+                </ul>
+            </div>
+
+
+            <div class="col-xs-6 text-center tickets-filter" id="buttons_category">
+                <h3 class="default">
+                    Category <span></span>
+                </h3>
+
+                <%
+                   result = count_by_enum(current_user, :category)
+                   class_result = class_by_enum(result)
+                %>
+
+                <ul>
+                    <li class="btn btn-danger <%= class_result[:technical] %>" data="category=technical">Technical(<%= result[:technical] %>)</li>
+                    <li class="btn btn-info <%= class_result[:adm] %>" data="category=adm">Adm(<%= result[:adm] %>)</li>
+                    <li class="btn btn-warning <%= class_result[:coaching] %>" data="category=coaching">Coaching(<%= result[:coaching] %>)</li>
+                </ul>
+            </div>
+
+            <button class="btn btn-primary" id="tickets_reset_filter">
+                Reset filters
+            </button>
+        </div>
+
+        <table class="table default clickable picturable" id="open_tickets_table">
+            <thead>
+            <tr>
+                <th>Ticket id</th>
+                <th>Student involved</th>
+                <th>Created by</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Number of unread messages</th>
+                <th>Creation</th>
+                <th>Updated</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% current_user.open_tickets.includes(:user, :student, :ticket_assignations).each do |ticket| %>
+                <tr href="<%= ticket_path(ticket) %>" popup='true' picture="<%= ticket.student.picture %>" category="<%= ticket.category %>" status="<%= ticket.status %>" class="colorable-tr" style="background-color: <%= Ticket::COLOR_TICKET[ticket.status_value] %>">
+                    <td><%= ticket.id %></td>
+                    <td><%= ticket.student.login %></td>
+                    <td><%= ticket.user.login %></td>
+                    <td><%= ticket.status %></td>
+                    <td><%= ticket.category %></td>
+                    <td><%= ticket.unread_messages(current_user).count %></td>
+                    <td><%= days_ago(ticket.created_at) + " days ago" %></td>
+                    <td><%= days_ago(ticket.updated_at) + " days ago" %></td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <h3>
+        Close tickets
+    </h3>
+    <div>
+        <table class="table default clickable picturable" id="close_tickets_table">
+            <thead>
+            <tr>
+                <th>Ticket id</th>
+                <th>Student involved</th>
+                <th>Created by</th>
+                <th>Status</th>
+                <th>Category</th>
+                <th>Creation</th>
+                <th>Updated</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% current_user.close_tickets.includes(:user, :student, :ticket_assignations).each do |ticket| %>
+                <tr href="<%= ticket_path(ticket) %>" popup='true' picture="<%= ticket.student.picture %>" category="<%= ticket.category %>" status="<%= ticket.status %>" class="colorable-tr" style="background-color: <%= Ticket::COLOR_TICKET[ticket.status_value] %>">
+                    <td><%= ticket.id %></td>
+                    <td><%= ticket.student.login %></td>
+                    <td><%= ticket.user.login %></td>
+                    <td><%= ticket.status %></td>
+                    <td><%= ticket.category %></td>
+                    <td><%= days_ago(ticket.created_at) + " days ago" %></td>
+                    <td><%= days_ago(ticket.updated_at) + " days ago" %></td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>

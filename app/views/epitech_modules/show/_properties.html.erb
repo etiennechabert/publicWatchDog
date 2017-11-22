@@ -1,0 +1,28 @@
+<%
+    properties = [
+            :optional,
+            :progressive,
+            :course_mandatory,
+            :year_mandatory,
+            :multiple_registration,
+            :hidden_on_resume,
+            :mandatory,
+            :security
+    ]
+%>
+
+<h4>
+    Module properties
+</h4>
+
+<ul class="action_list">
+    <% properties.each do |prop| %>
+        <% if epitech_module[prop] %>
+            <li>
+                <button class="btn btn-primary" disabled="disabled">
+                    <%= prop %>
+                </button>
+            </li>
+        <% end %>
+    <% end %>
+</ul>

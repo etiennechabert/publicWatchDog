@@ -1,0 +1,162 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'students/show_netsoul' %>
+    <%= javascript_include_tag 'students/show' %>
+<% end %>
+
+<div class="row">
+    <div class="col-xs-12" id="student_header">
+        <div class="col-xs-2 text-center">
+            <%= image_tag @student.picture, style: 'max-height: 100%', id: 'student_picture' %>
+
+            <div class="col-xs-12 default nopadding" id="actions_link">
+                <ul id="student_actions_list" class="action_list">
+                    <li title="Epitech Intranet">
+                        <%= link_to "https://intra.epitech.eu/user/#{@student.login}/", class: "btn btn-primary" do %>
+                            <span class="fa fa-graduation-cap" aria-hidden="true"></span>
+                        <% end %>
+                    </li>
+
+                    <li title="Post a Checkup">
+                        <button class="btn btn-success checkup-toggle">
+                            <span class="fa fa-comment" >
+                            </span>
+                        </button>
+                    </li>
+
+                    <li title="Create a Ticket">
+                        <a href="<%= new_tickets_path(@student.login) %>" class="btn btn-danger">
+                            <span class="fa fa-exclamation-triangle"></span>
+                        </a>
+                    </li>
+
+                    <% if current_user.student_followed?(@student) %>
+                        <li title="Unfollow this student">
+                            <button class="btn btn-warning xhr-button" href="<%= follow_student_users_path(student: @student.login, event: 'remove') %>" confirm="stop following">
+                                <span class="fa fa-ban">
+                                </span>
+                            </button>
+                        </li>
+                    <% else %>
+                        <li title="Follow this student">
+                            <button class="btn btn-info xhr-button" href="<%= follow_student_users_path(student: @student.login, event: 'add') %>" confirm="follow">
+                                <span class="fa fa-thumb-tack">
+                                </span>
+                            </button>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-6 default">
+            <div class="col-xs-6">
+                <form class="form-horizontal">
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'Login', attribute_value: @student.login} %>
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'Name', attribute_value: @student.name} %>
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'Tel', attribute_value: 'Todo IBP'} %>
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'Resp', attribute_value: 'Todo IBP'} %>
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'Resp Tel', attribute_value: 'Todo IBP'} %>
+                </form>
+            </div>
+
+            <div class="col-xs-6">
+                <form class="form-horizontal">
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'Credits', attribute_value: student_print_credits} %>
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'GPA', attribute_value: @student.get_gpa} %>
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'Semester', attribute_value: student_print_semester_name(@student)} %>
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'School', attribute_value: student_print_school_name(@student)} %>
+                    <%= render 'students/show/detail_component', {is_detail: false, attribute_name: 'Location', attribute_value: @student.location} %>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-xs-4" id="student_netsoul_header">
+            <div class="text-center default">
+                <h4>4 Weeks</h4>
+                <h5>
+                    <span style="color: #DCDCDC">Gray is promotion </span>
+                    /
+                    <span style="color: #97BBCD"> Blue is student</span>
+                </h5>
+
+                <canvas id="netsoul_weeks_chart" style="width: 100%; height: 150px">
+                </canvas>
+            </div>
+
+            <div class="text-center default">
+                <h4>3 Months</h4>
+                <h5>
+                    <span style="color: #DCDCDC">Gray is promotion </span>
+                    /
+                    <span style="color: #97BBCD"> Blue is student</span>
+                </h5>
+
+                <canvas id="netsoul_months_chart" style="width: 100%; height: 150px">
+                </canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row ui-widget-overlay" id="student_checkup">
+    <div class="col-xs-12 ui-widget-overlay-content ui-corner-all white-bg">
+        <%= render 'checkup', student: @student %>
+        <%= button_tag 'Reset', {id: 'checkup_reset', class: 'btn btn-warning pull-right', style: 'margin-right: 10px'} %>
+        <%= button_tag 'Close', {class: 'btn btn-danger checkup-toggle pull-right', style: 'margin-right: 10px'} %>
+    </div>
+</div>
+
+<div class="row">
+    <div class="jquery-tabs col-xs-12">
+        <ul>
+            <li>
+                <a href="#details">Details</a>
+            </li>
+
+            <li>
+                <a href="#checkups">All checkups</a>
+            </li>
+
+            <li>
+                <a href="#tickets">All Tickets</a>
+            </li>
+
+            <li>
+                <a href="#results">Performance</a>
+            </li>
+
+            <li>
+                <a href="#modules">Modules & Grades</a>
+            </li>
+
+            <li>
+                <a href="#groups">Groups</a>
+            </li>
+        </ul>
+
+        <div id="details">
+            <%= render 'students/show/details' %>
+        </div>
+
+        <div id="checkups">
+            <%= render 'students/show/checkups'%>
+        </div>
+
+        <div id="tickets">
+            <%= render 'students/show/tickets' %>
+        </div>
+
+        <div id="results">
+            <%= render 'students/show/results' %>
+        </div>
+
+        <div id="modules">
+            <%= render 'students/show/modules_and_grades'  %>
+        </div>
+
+        <div id="groups">
+            <%= render 'students/show/groups' %>
+        </div>
+    </div>
+</div>
+

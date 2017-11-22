@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Schools</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+
+        <th>
+            Years number
+        </th>
+
+        <th>
+            Semester number
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @schools.each do |school| %>
+        <tr>
+            <td>
+                <%= school.name %>
+            </td>
+
+            <td>
+                <%= school.nb_year %>
+            </td>
+
+            <td>
+                <%= school.nb_semester %>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+

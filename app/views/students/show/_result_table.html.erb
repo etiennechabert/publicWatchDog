@@ -1,0 +1,68 @@
+<h3 class="default">
+    Resume for <%= scholar_year %>
+</h3>
+
+<%
+   columns_definition = [
+           {name: :exams_missed, good: false, enable: false},
+           {name: :exams_failed, good: false, enable: false},
+           {name: :exams_success, good: true, enable: true},
+           {name: :projects_missed, good: false, enable: true},
+           {name: :projects_failed, good: false, enable: false},
+           {name: :projects_success, good: true, enable: true},
+           {name: :projects_cheated, good: false, enable: false},
+           {name: :credits_own, good: true, enable: true},
+           {name: :credits_failed, good: false, enable: true},
+           {name: :credits_pending, good: true, enable: false},
+           {name: :credits_possible, good: true, enable: true},
+           {name: :modules_success, good: true, enable: true},
+           {name: :modules_failed, good: false, enable: true},
+           {name: :modules_pending, good: true, enable: false},
+           {name: :gpa, good: true, enable: true}
+   ]
+%>
+
+<table class="table picturable clickable default" id="resume_table">
+    <thead>
+    <tr>
+        <% if display_login %>
+            <th>
+                Login
+            </th>
+        <% end %>
+
+        <% columns_definition.each do |element| %>
+            <% next unless element[:enable] %>
+            <th good="<%= element[:good] %>" color="true">
+                <%= element[:name] %>
+            </th>
+        <% end %>
+        <th>
+            chances
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% students_data = ModuleInstance.students_stats(students, scholar_year) %>
+    <% students.each do |student| %>
+        <% data = students_data[:students.to_s][student.login][:result.to_s] %>
+        <tr href="<%= student_path(student.login) %>" picture="<%= student.picture %>" popup="true">
+            <% if display_login %>
+                <td>
+                    <%= student.login %>
+                </td>
+            <% end %>
+            <% columns_definition.each do |td| %>
+                <% next unless td[:enable] %>
+                <td class="text-center">
+                    <%= data[td[:name].to_s] %>
+                </td>
+            <% end %>
+            <td data="<%= student.success_chance %>">
+                <%= student.success_chance %>%
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>

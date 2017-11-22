@@ -1,0 +1,50 @@
+<div class="row">
+    <h3 class="col-xs-12 default">
+        List of Epitech Groups (<%= @groups.count %>)
+    </h3>
+
+    <p class="col-xs-12 default">
+        Epitech groups are used to give access and permissions on watchdog, select a group to give rights to his members
+    </p>
+
+    <table class="table col-xs-12 default clickable">
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+
+            <th>
+                Number of members
+            </th>
+
+            <th>
+                Access level
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @groups.each do |group| %>
+            <tr href="<%= group_path(group) %>" popup="true">
+                <td>
+                    <%= group.title %>
+                </td>
+
+                <td>
+                    <%= group.users.count %>
+                </td>
+
+                <td>
+                    <%= group.access_level %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    defaultDatatable($('table'));
+</script>

@@ -1,0 +1,20 @@
+<div class="default row" id="ticket_messages">
+    <% number = @ticket.messages.where.not(id: nil).count %>
+    <h3>
+        Messages (<%= number %>)
+    </h3>
+
+    <% if number > 0 %>
+        <% messages.each do |message| %>
+            <%= render 'tickets/messages/show', message: message if message.id %>
+        <% end %>
+    <% else %>
+        <div class="col-xs-12">
+            No message yet
+        </div>
+    <% end %>
+</div>
+
+<div class="default bg-white row" id="ticket_new_message">
+    <%= render 'tickets/messages/new' %>
+</div>

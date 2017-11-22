@@ -1,0 +1,51 @@
+<h3>
+    List of all EpitechModule for 2015
+</h3>
+
+<table class="table default" id="module_instances">
+    <thead>
+    <tr>
+        <th>
+            Name
+        </th>
+
+        <th>
+            Code
+        </th>
+
+        <th>
+            Credits
+        </th>
+
+        <th>
+            Description
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+        <% @epitech_modules.each do |epitech_module| %>
+            <tr>
+                <td>
+                    <%= epitech_module.name %>
+                </td>
+
+                <td>
+                    <%= epitech_module.code %>
+                </td>
+
+                <td>
+                    <%= epitech_module.credits %>
+                </td>
+
+                <td>
+                    <%= epitech_module.description %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<script>
+    defaultDatatable($('#module_instances'));
+</script>

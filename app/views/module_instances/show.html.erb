@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="default">
+        <div class="col-xs-12">
+            <h3>
+                <%= @epitech_module.name %>
+            </h3>
+            <h4>
+                <%= "#{@module_instance.location} - #{@module_instance.scholar_year} - #{@module_instance.code}" %>
+            </h4>
+            <p>
+                <%= @epitech_module.description %>
+            <p>
+        </div>
+
+        <div class="col-xs-6">
+            <h4>
+                Module actions
+            </h4>
+
+            <ul class="action_list">
+                <li>
+                    <%= link_to 'Intranet', "https://intra.epitech.eu/module/#{@module_instance.scholar_year}/#{@module_instance.epitech_module.code}/#{@module_instance.code}", class: 'btn btn-primary' %>
+                </li>
+            </ul>
+        </div>
+
+        <div class="col-xs-6 text-right">
+            <%= render 'epitech_modules/show/properties', epitech_module: @module_instance.epitech_module %>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="jquery-tabs">
+            <ul>
+                <li><a href="#proj">Projets</a></li>
+                <li><a href="#tp">TPs</a></li>
+                <li><a href="#exam">Exams</a></li>
+                <li><a href="#rdv">RDV</a></li>
+                <li><a href="#class">Classes</a></li>
+                <li><a href="#registered_students">Registered students</a></li>
+                <li><a href="#missing_students">Missing students</a></li>
+            </ul>
+
+            <%= render 'module_instances/show/activities', {type: 'proj'} %>
+            <%= render 'module_instances/show/activities', {type: 'tp'} %>
+            <%= render 'module_instances/show/activities', {type: 'exam'} %>
+            <%= render 'module_instances/show/activities', {type: 'rdv'} %>
+            <%= render 'module_instances/show/activities', {type: 'class'} %>
+
+            <%= render 'module_instances/show/registered_students' %>
+            <%= render 'module_instances/show/missing_students' %>
+        </div>
+    </div>
+</div>
+
+<script>
+    beforeTabs = function(){
+        defaultDatatable($('#activities table'), {"order": [[ 1, "asc" ]]});
+        defaultDatatable($('#registered_students table'), {"order": [[ 0, "asc" ]]});
+        defaultDatatable($('#missing_students table'), {"order": [[ 0, "asc" ]]})
+    };
+</script>

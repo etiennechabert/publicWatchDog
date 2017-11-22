@@ -1,0 +1,42 @@
+<h3 class="default">
+   Students grades (<%= @module_instance_activity_relation.grades.count %>)
+</h3>
+
+<table class="table clickable default" id='grades_table'>
+    <thead>
+    <tr>
+        <th>
+            Login
+        </th>
+        <th>
+            Comment
+        </th>
+        <th>
+            Grade
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @module_instance_activity_relation.grades.includes(:student).each do |grade| %>
+        <tr href="<%= student_path(grade.student.login) %>" class="colorable-tr" min="<%= grade.module_instance_activity_relation.min %>" max="<%= grade.module_instance_activity_relation.max %>" value="<%= grade.grade %>">
+            <td>
+                <%= grade.student.login %>
+            </td>
+            <td>
+                <%= grade.comment %>
+            </td>
+            <td>
+                <%= grade.grade %>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<script>
+    $(function(){
+        defaultDatatable($('#grades_table'), {order: [[2, 'desc']]});
+        colorTableAverage(0, $('#grades_table'));
+    });
+</script>

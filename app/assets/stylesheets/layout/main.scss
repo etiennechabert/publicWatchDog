@@ -1,0 +1,165 @@
+html, body {
+    height: 100%;
+}
+
+body {
+  background-color: #333333;
+}
+
+#main{
+  min-height: 100%;
+}
+
+table {
+  td, th {
+    text-align: center;
+  }
+
+  td:first-child, th:first-child {
+    text-align: left;
+  }
+
+  tr * {
+    background-color: #4c4c4c;
+  }
+
+  tr:hover :not(button) {
+    cursor: pointer;
+    background-color: #666666;
+  }
+
+  .active :not(button) {
+    background-color: #7f7f7f !important;
+  }
+}
+
+.default {
+  color: beige;
+
+  * {
+    color: beige;
+  }
+}
+
+.default-radius {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.default-form {
+  .form-group * {
+    color: #000000;
+  }
+
+  .form-group label {
+    color: whitesmoke;
+  }
+}
+
+.row {
+    margin: 10px;
+    padding: 10px;
+}
+
+.dataTables_filter {
+  input {
+    background: #4b4b4b;
+  }
+}
+
+.hideable {
+  h4 {
+    cursor: pointer;
+  }
+}
+
+.ui-widget-overlay {
+  display: none;
+  background: transparent;
+  opacity: 1;
+}
+
+.white-bg {
+  background-color: whitesmoke;
+
+  * {
+    color: black !important;
+  }
+
+  .form-group input {
+    background: white !important;
+  }
+
+  .btn {
+    color: white !important;
+  }
+}
+
+.ui-widget-overlay-content {
+    padding: 50px;
+    margin: 10%;
+    background-color: whitesmoke;
+}
+
+.ui-tabs {
+  background-color: #333333;
+  padding: 0px;
+
+  .ui-tabs-panel {
+    background-color: #333333;
+  }
+}
+
+.ui-accordion {
+  .ui-accordion-header{
+    background: #5b5b5b;
+    color: white;
+  }
+
+  .ui-accordion-content{
+    background: #474747;
+  }
+}
+
+.hoover-picture, .hoover-info {
+  display: block;
+  position: absolute;
+  overflow: hidden;
+}
+
+.hoover-info {
+  color: black;
+  background-color: whitesmoke;
+  padding: 10px;
+  max-width: 600px;
+  border-radius: 20px;
+}
+
+.action_list {
+  margin: 10px 0 10px 0;
+  padding: 0;
+
+  li {
+    display: inline;
+    list-style: none;
+  }
+}
+
+.dataTables_filter {
+  color: whitesmoke !important;
+}
+
+.nopadding {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.colorable-tr:hover * {
+  background-color: transparent;
+  opacity: 1;
+}
+
+.colorable-tr * {
+  background-color: transparent;
+  opacity: 0.7;
+}

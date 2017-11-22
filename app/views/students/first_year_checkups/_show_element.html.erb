@@ -1,0 +1,36 @@
+<h4 min="0" max="100" value="<%= checkup.success_chance %>">
+    <%= checkup.title %>
+</h4>
+
+<div>
+    <% if checkup.done_by_user(current_user) %>
+        <%= button_tag 'Delete', class: 'btn btn-danger btn-sm pull-right', element_title: checkup.title, element_id: checkup.id %>
+    <% end %>
+
+    <% if checkup.absent %>
+        <span>This student was absent to this checkup</span>
+    <% end %>
+
+    <ul style="list-style: none">
+        <li>
+            Type: <%= checkup.nature %>
+        </li>
+
+        <li>
+            Success chance of this student : <%= checkup.success_chance %>%
+        </li>
+
+        <li>
+            Comment : <%= checkup.comment %>
+        </li>
+
+        <li>
+            <% unless checkup.due_date.blank? %>
+                <span>
+                    <%= checkup.due_date %> ->
+                </span>
+            <% end %>
+            Objectives : <%= checkup.objectives %>
+        </li>
+    </ul>
+</div>

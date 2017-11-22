@@ -1,0 +1,24 @@
+#students_filter {
+  .form-inline {
+    display: inline-block;
+    width: 100%;
+  }
+
+  .form-group {
+    display: none;
+
+    .form-control {
+      display: block;
+      width: 100%;
+    }
+  }
+
+  #student_filter_actions {
+    position: relative;
+    top: 20px;
+
+    button{
+      display: none;
+    }
+  }
+}

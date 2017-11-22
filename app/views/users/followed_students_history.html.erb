@@ -1,0 +1,133 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'users/followed_students_tables' %>
+<% end %>
+
+<% if current_user.students.empty? %>
+    <h3 style="text-align: center">
+        <%= link_to 'Follow your students first', follow_students_users_path, class: 'btn btn-primary btn-lg' %>
+    </h3>
+<% else %>
+    <div class="row">
+        <h3 class="default">
+            Your students history
+        </h3>
+
+        <table class="table default picturable clickable">
+            <thead>
+            <tr>
+                <th>
+                    Login
+                </th>
+
+                <th>
+                    Number of years in double
+                </th>
+
+                <th>
+                    Number of C pool
+                </th>
+
+                <th>
+                    Number of PHP Pool
+                </th>
+
+                <th>
+                    Number of C++ pool
+                </th>
+
+                <th>
+                    1
+                </th>
+
+                <th>
+                    2
+                </th>
+
+                <th>
+                    3
+                </th>
+
+                <th>
+                    Master
+                </th>
+
+                <th>
+                    First year
+                </th>
+
+                <th>
+                    Last Year
+                </th>
+
+                <th>
+                    Number of year at Epitech
+                </th>
+
+                <th>
+                    Number of year
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% @students.each do |student| %>
+                <% data = CourseSemesterModuleRelation.find_collision student %>
+                <% data_pool = CourseSemesterModuleRelation.find_pool_collision student %>
+                <tr href="<%= student_path(student.login) %>" popup="true" picture="<%= student.picture %>">
+                    <td>
+                        <%= student.login %>
+                    </td>
+
+                    <td>
+                        <%= data[:nb] %>
+                    </td>
+
+                    <td>
+                        <%= data_pool[:pool_c] %>
+                    </td>
+
+                    <td>
+                        <%= data_pool[:pool_php] %>
+                    </td>
+
+                    <td>
+                        <%= data_pool[:pool_cpp] %>
+                    </td>
+
+                    <td>
+                        <%= data[:epitech_year]['1'].length %>
+                    </td>
+
+                    <td>
+                        <%= data[:epitech_year]['2'].length %>
+                    </td>
+
+                    <td>
+                        <%= data[:epitech_year]['3'].length %>
+                    </td>
+
+                    <td>
+                        <%= data[:epitech_year]["Master"].length %>
+                    </td>
+
+                    <td>
+                        <%= data[:first_year] %>
+                    </td>
+
+                    <td>
+                        <%= data[:last_year] %>
+                    </td>
+
+                    <td>
+                        <%= data[:number_of_years_at_epitech] %>
+                    </td>
+
+                    <td>
+                        <%= data[:number_of_years] %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+<% end %>

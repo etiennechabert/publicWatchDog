@@ -1,0 +1,69 @@
+<% if !@day_values[:start] %>
+    <h4 class="alert alert-success">
+        <%= @students.count %> Students you saw today
+    </h4>
+<% elsif !@day_values[:end] %>
+    <h4 class="alert alert-danger">
+        <%= @students.count %> Students you didn't saw since a month, it's not good
+    </h4>
+<% elsif @day_values[:end] == 7 %>
+    <h4 class="alert alert-success">
+        <%= @students.count %> Students you didn't saw since <%= @day_values[:start] %> days, it's ok
+    </h4>
+<% else %>
+    <h4 class="alert alert-warning">
+        <%= @students.count %> Students you didn't saw since <%= @day_values[:start] %> days, you should pay attention to it
+    </h4>
+<% end %>
+
+<table class="table default clickable picturable">
+    <thead>
+    <tr>
+        <th>
+            Login
+        </th>
+
+        <th>
+            Last checkup with
+        </th>
+
+        <th>
+            Day ago
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @students.each do |student| %>
+        <tr href="<%= student_path(student.login) %>" picture="<%= student.picture %>">
+            <td>
+                <%= student.login %>
+            </td>
+
+            <% if student.student_checkup_relations.empty? %>
+                <td>
+                    No checkup yet
+                </td>
+
+                <td>
+                    No checkup yet
+                </td>
+            <% else %>
+                <td>
+                    <%= student.student_checkup_relations.last.checkup.user.login %>
+                </td>
+
+                <td>
+                    <%= (Date.today - student.last_checkup_date).to_i %>
+                </td>
+            <% end %>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<script>
+    $(function() {
+        defaultDatatable($('table'));
+    });
+</script>

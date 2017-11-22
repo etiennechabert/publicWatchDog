@@ -1,0 +1,31 @@
+<% if message.user_id == current_user.id %>
+    <div class="ticket-message user-message form-group">
+        <%= render 'tickets/messages/details', message: message %>
+
+        <div class="col-xs-10">
+            <textarea readonly class="form-control"><%= message.message %></textarea>
+            <ul class="default">
+            <% JSON.parse(message.modification).each do |k, v| %>
+                <li>
+                    <%= "#{k} : #{v}" %>
+                </li>
+            <% end %>
+            </ul>
+        </div>
+    </div>
+<% else %>
+    <div class="ticket-message message form-group">
+        <div class="col-xs-10">
+            <textarea readonly class="form-control"><%= message.message %></textarea>
+            <ul class="default">
+                <% JSON.parse(message.modification).each do |k, v| %>
+                    <li>
+                        <%= "#{k} : #{v}" %>
+                    </li>
+                <% end %>
+            </ul>
+        </div>
+
+        <%= render 'tickets/messages/details', message: message %>
+    </div>
+<% end %>

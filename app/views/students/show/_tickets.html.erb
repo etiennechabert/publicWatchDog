@@ -1,0 +1,99 @@
+<div id="tickets_accordion">
+    <h3 class="default">
+        Open tickets (<%= @student.open_tickets.count %>)
+    </h3>
+    <div>
+        <table class="table clickable default" id="open_tickets_table">
+            <thead class="default">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    User
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Status
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% @student.open_tickets.each do |ticket| %>
+                <tr href="<%= ticket_path(ticket) %>" style="background-color: <%= Ticket::COLOR_TICKET[ticket.status_value] %>" class="colorable-tr">
+                    <td>
+                        <%= ticket.id %>
+                    </td>
+                    <td>
+                        <%= ticket.user.login %>
+                    </td>
+                    <td>
+                        <%= ticket.title %>
+                    </td>
+                    <td>
+                        <%= ticket.category %>
+                    </td>
+                    <td>
+                        <%= ticket.status %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <h3 class="default">
+        Close tickets (<%= @student.close_tickets.count %>)
+    </h3>
+    <div>
+        <table class="table clickable default" id="close_tickets_table">
+            <thead class="default">
+            <tr>
+                <th>
+                    ID
+                </th>
+                <th>
+                    User
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Status
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% @student.close_tickets.each do |ticket| %>
+                <tr href="<%= ticket_path(ticket) %>" style="background-color: <%= Ticket::COLOR_TICKET[ticket.status_value] %>" class="colorable-tr">
+                    <td>
+                        <%= ticket.id %>
+                    </td>
+                    <td>
+                        <%= ticket.user.login %>
+                    </td>
+                    <td>
+                        <%= ticket.title %>
+                    </td>
+                    <td>
+                        <%= ticket.category %>
+                    </td>
+                    <td>
+                        <%= ticket.status %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+</div>

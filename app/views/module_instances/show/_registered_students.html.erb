@@ -1,0 +1,49 @@
+<div id="registered_students">
+    <h4 class="default">
+        <%= @registrations.count %> students register
+    </h4>
+
+    <table class="table picturable clickable default">
+        <thead>
+        <tr>
+            <th>
+                Login
+            </th>
+
+            <th>
+                Registration date
+            </th>
+
+            <th>
+                Days left for registration
+            </th>
+
+            <th>
+                Grades
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @registrations.each do |registration| %>
+            <tr picture="<%= registration.student.picture %>" href="<%= student_path(registration.student.login) %>" popup='true'>
+                <td>
+                    <%= registration.student.login %>
+                </td>
+
+                <td>
+                    <%= registration.registration_date %>
+                </td>
+
+                <td>
+                    <%= (@module_instance.end_register - registration.registration_date).to_i %>
+                </td>
+
+                <td>
+                    <%= registration.grade %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>

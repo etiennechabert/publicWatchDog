@@ -1,0 +1,39 @@
+<div class="col-md-6">
+    <h4 style="text-align: center">
+        Students chances
+    </h4>
+
+    <div class="canvas-holder">
+        <canvas id="chances_chart"></canvas>
+    </div>
+</div>
+
+<script>
+    Chart.defaults.global.responsive = true;
+
+    data = [];
+    var students_chance = gon.stats.students_chance;
+    Object.keys(students_chance).forEach(function(e, i){
+        color = $.xcolor.gradientlevel('#990000', '#009900', i, Object.keys(students_chance).length - 1);
+        data.push({
+            value: students_chance[e],
+            label: e+'%',
+            color: color,
+            highlight: $.xcolor.lighten(color)
+        });
+    });
+
+    var chancesChart = $("#chances_chart");
+    var ctx = chancesChart.get(0).getContext('2d');
+    var pieChartChances = new Chart(ctx).Pie(data);
+
+    chancesChart.click(function(event)
+    {
+        activeElement = pieChartChances.getSegmentsAtEvent(event)[0];
+        var value = activeElement.label.split('%').shift();
+        if (value == '')
+            value = 'none';
+        $(location).attr('href', Routes.chances_students_path({value: value}));
+    });
+
+</script>

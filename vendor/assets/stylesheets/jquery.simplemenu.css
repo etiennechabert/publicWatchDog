@@ -1,0 +1,110 @@
+.menu
+{
+    left: 10px
+}
+.menu, .menu ul
+{
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    position: relative;
+    line-height: 2.5em;
+}
+.menu a
+{
+    text-decoration: none;
+}
+.menu > li
+{
+    margin-left: 15px;
+}
+.menu > li:first
+{
+    margin-left:0px!important;
+}
+
+.menu > li > a
+{
+    margin: 0;
+    width: 100%;
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+
+div.box
+{
+    position: absolute;
+    z-index: -1;
+    background-color: #75CDD2;
+    left: 0;
+    top: 0;
+    border-radius: 4px 4px 0px 0px;
+    -moz-border-radius: 4px 4px 0px 0px;
+    -webkit-border-radius: 4px 4px 0px 0px;
+}
+
+li.pull-down
+{
+    padding-right:6px;
+}
+
+li.pull-down > a
+{
+    padding-right: 20px;
+}
+
+.menu a.selected
+{
+    background-color: #e6e6e6;
+    border-radius: 0px 4px 4px 4px;
+    -moz-border-radius: 0px 4px 4px 4px;
+    -webkit-border-radius: 0px 4px 4px 4px;
+}
+.menu li
+{
+    float: left;
+    position: relative;
+    width: 100%;
+}
+.menu ul
+{
+    position: absolute;
+    display: none;
+    width: 200px;
+    top: 50px;
+    background-color: #ffffff; /*-moz-opacity: .50;     filter: alpha(opacity=50);     opacity: .50;*/
+    border-radius: 0px 4px 4px 4px;
+    -moz-border-radius: 0px 4px 4px 4px;
+    -webkit-border-radius: 0px 4px 4px 4px;
+}
+.menu li ul a
+{
+    width: 100%;
+    height: auto;
+    float: left;
+    color: #000000;
+    padding: 0 10px;
+}
+.menu li ul li
+{
+    padding: 0;
+    margin: 0;
+}
+.menu ul ul
+{
+    top: auto;
+}
+.menu li ul ul
+{
+    right: 200px; /*margin: 0px 0 0 10px;*/
+}
+.menu-item-selected > a
+{
+    background-color: #1a1a1a;
+}
+.menu-item-selected > a:hover
+{
+    color: #e6e6e6 !important;
+}
+

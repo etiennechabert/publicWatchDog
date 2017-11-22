@@ -1,0 +1,27 @@
+<h3>
+    Student Checkup
+</h3>
+
+<%= bootstrap_form_tag(class: 'checkup', url: first_year_checkups_path(student: @student.login)) do |f| %>
+    <%= f.select 'Absent ?',  [['No', false], ['Yes', true]], {}, {name: 'first_year_checkup[absent]'} %>
+    <%= f.select 'Type', %w(Appointment Phone Info), {}, {name: 'first_year_checkup[nature]'} %>
+    <%= f.select 'Success chances', [
+                                  ['0% (Student gives up)', 0],
+                                  ['10% (Student is giving up officially)', 10],
+                                  ['20% (Student very close to give up)', 20],
+                                  ['30% (Student got big difficulties)', 30],
+                                  ['40% (Student got some difficulties)', 40],
+                                  ['60% (Student is working as he is supposed to)', 60],
+                                  ['70% (Student got good results)', 70],
+                                  ['80% (Student got very good results)', 80],
+                                  ['90% (Student kicking ass)', 90],
+                                  ['100% (Student kicking (fat) ass)', 100]
+                          ], {}, {name: 'first_year_checkup[success_chance]'}
+    %>
+    <%= f.text_area 'Comment', {name: 'first_year_checkup[comment]'}  %>
+    <%= f.text_area 'Objectives', {name: 'first_year_checkup[objectives]'}  %>
+    <%= f.date_field 'Due date', {name: 'first_year_checkup[due_date]', value: Date.today + 7}  %>
+    <%= f.text_area 'post_it', {name: 'first_year_checkup[post_it]'}  %>
+
+    <%= f.submit 'Submit', class: 'btn btn-success pull-right' %>
+<% end %>

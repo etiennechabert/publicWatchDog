@@ -1,0 +1,64 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'students/show_modules_and_grades' %>
+<% end %>
+
+<div class="row">
+    <div class="col-xs-6">
+        <h3 class="default">
+            Modules
+        </h3>
+
+        <table class="table choosable default" id="student_modules">
+            <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Scholar year
+                </th>
+                <th>
+                    Credits
+                </th>
+                <th>
+                    Grade
+                </th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <% @student_data['modules'].each_with_index do |module_instance, index| %>
+                <tr class='colorable-tr' data='<%= module_instance['id'] %>' index="<%= index %>" popup="true" value="<%= module_instance['average'] %>" min="<%= module_instance['promo_min'] %>" max="<%= module_instance['promo_max'] %>">
+                    <td>
+                        <%= module_instance['name'] %>
+                    </td>
+                    <td>
+                        <%= module_instance['scholar_year'] %>
+                    </td>
+                    <td>
+                        <%= module_instance['credits'] %>
+                    </td>
+                    <td>
+                        <%= module_instance['grade'] %>
+                    </td>
+                </tr>
+            <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="col-xs-6">
+        <h3 class="default">
+            Grades
+        </h3>
+
+        <div id="grades">
+            <h5 class="default">
+                Choose a module first
+            </h5>
+        </div>
+
+        <div id="grade_details">
+        </div>
+    </div>
+</div>

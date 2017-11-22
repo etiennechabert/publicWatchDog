@@ -1,0 +1,49 @@
+<% content_for :javascript_includes do %>
+    <%= javascript_include_tag 'epitech_modules/show' %>
+<% end %>
+
+<div class="row">
+    <h3 class="default"><%= @epitech_module.name %></h3>
+
+    <ul class="default list-unstyled">
+        <li>
+            <%= epitech_module_print_semester @epitech_module %>
+        </li>
+
+        <li>
+            <%= epitech_module_print_credits @epitech_module %>
+        </li>
+    </ul>
+
+    <% if @epitech_module.semester %>
+        <h4><%= link_to "Semester #{@epitech_module.semester.name}", semester_path(@epitech_module.semester) %></h4>
+    <% end %>
+
+    <div class="jquery-tabs">
+        <ul>
+            <li>
+                <a href="#activities">
+                    Activities
+                </a>
+            </li>
+
+            <li>
+                <a href="#instances">
+                    Instances
+                </a>
+            </li>
+
+            <li>
+                <a href="#statistics">
+                    Statistics
+                </a>
+            </li>
+        </ul>
+
+        <%= render 'epitech_modules/show/activities' %>
+
+        <%= render 'epitech_modules/show/instances' %>
+
+        <%= render 'epitech_modules/show/statistics' %>
+    </div>
+</div>

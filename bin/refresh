@@ -1,0 +1,14 @@
+#!/bin/bash
+
+cd /home/chaber_a/PedaNinja
+
+# FOR THE CRAWLING WE LOAD 16 WORKERS
+RAILS_ENV=production ./bin/delayed_job stop
+RAILS_ENV=production ./bin/delayed_job start -n 16
+
+#LAUNCHING THE CRAWLING
+RAILS_ENV=production rake crawler:all > /dev/null 2>&1
+
+# RESTORE THE USUAL NUMBER OF WORKERS AS 8
+RAILS_ENV=production ./bin/delayed_job stop
+RAILS_ENV=production ./bin/delayed_job start -n 8

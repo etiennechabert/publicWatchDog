@@ -1,0 +1,33 @@
+#netsoul_period_selector{
+  button {
+    margin: 10px;
+    width: 100%;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  button
+  {
+    width: 100%;
+  }
+}
+
+#tickets_reset_filter {
+  display: none;
+  position: absolute;
+  top: 55px;
+  left: 0px;
+}
+
+#evolution_list {
+  width: 100%;
+  margin-top: 0;
+  text-align: right;
+}
+
+#evolution_chart {
+  height: 800px;
+  width: 100%;
+}

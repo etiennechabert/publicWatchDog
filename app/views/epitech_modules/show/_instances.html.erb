@@ -1,0 +1,57 @@
+<div id="instances">
+    <h4 class="default">
+        Modules instances (<%= @epitech_module.module_instances.count %>)
+    </h4>
+
+    <table class="table default clickable">
+        <thead>
+        <tr>
+            <th>
+                Code
+            </th>
+
+            <th>
+                Location
+            </th>
+
+            <th>
+                Scholar year
+            </th>
+
+            <th>
+                Registered students
+            </th>
+
+            <th>
+                Missing students
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @epitech_module.module_instances.order(scholar_year: 'DESC').each do |instance| %>
+            <tr href="<%= module_instance_path(instance) %>">
+                <td>
+                    <%= instance.code %>
+                </td>
+
+                <td>
+                    <%= instance.location %>
+                </td>
+
+                <td>
+                    <%= instance.scholar_year %>
+                </td>
+
+                <td>
+                    <%= instance.students.count %>
+                </td>
+
+                <td>
+                    <%= instance.students_not_registered.count %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,49 @@
+#student_header {
+  font-size: 16px;
+  background-color: #4D4D4D;
+  border-radius: 10px;
+  border-color: #808080;
+  border-width: 1px;
+  border-style: solid;
+  padding: 10px;
+
+  img {
+    border-radius: 10px;
+  }
+
+  .header-detail {
+    display: none;
+  }
+
+  .alert {
+    margin: 0;
+  }
+
+  #student_actions_list {
+    margin-bottom: 0px;
+  }
+}
+
+#student_checkup {
+    position: relative;
+    width: inherit;
+    height: inherit;
+
+  .ui-widget-overlay-content {
+    margin: 0;
+  }
+}
+
+#student_last_checkup {
+  border-radius: 10px;
+  padding: 10px;
+}
+
+
+#grade_details {
+  background-color: white;
+
+  * {
+    padding: 10px;
+  }
+}

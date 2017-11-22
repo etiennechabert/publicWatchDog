@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-xs-12">
+        <% if current_user.students.empty? %>
+            <h3 style="text-align: center">
+                <%= link_to 'Follow your students first', follow_students_users_path, class: 'btn btn-primary btn-lg' %>
+            </h3>
+
+            <script>
+                function drawCharts(){
+                    // This block overwrite the default drawCharts function previously define to avoid JS errors
+                }
+            </script>
+        <% else %>
+            <div class="jquery-tabs">
+                <ul>
+                    <li>
+                        <a href="#checkups_stats">
+                            Checkups stats
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#checkups_list">
+                            Checkups details
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#evolutions_stats">
+                            Evolutions stats
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#netsoul_stats">
+                            Netsoul stats
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#tickets">
+                            Your tickets <span class="badge"><%= current_user.open_tickets.count %></span>
+                        </a>
+                    </li>
+                </ul>
+
+                <div id="checkups_stats">
+                    <%= render 'board/index/checkup/checkups_stats' %>
+                </div>
+
+                <div id="checkups_list">
+                    <%= render 'board/index/checkup/checkups_list' %>
+                </div>
+
+                <div id="evolutions_stats">
+                    <%= render 'board/index/evolution/evolution_stats' %>
+                </div>
+
+                <div id="netsoul_stats">
+                    <%= render 'board/index/netsoul/netsoul_stats' %>
+                </div>
+
+                <div id="tickets">
+                    <%= render 'board/index/tickets/list' %>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</div>
+

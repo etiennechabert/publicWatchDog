@@ -1,0 +1,30 @@
+<div id="activities">
+    <h4 class="default">Module activities (<%= @epitech_module.module_activities.count %>)</h4>
+
+    <table class="table default clickable">
+        <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Type
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @epitech_module.module_activities.order(:activity_title).each do |activity| %>
+            <tr title="<%= activity.description %>" href="<%= module_activity_path(activity) %>">
+                <td>
+                    <%= activity.title %>
+                </td>
+
+                <td>
+                    <%= activity.activity_title %>
+                </td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>

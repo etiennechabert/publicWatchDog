@@ -1,0 +1,29 @@
+<h3 class="default">
+    Students not register (<%= @module_instance_activity_relation.missing_students(existing_students).count %>)
+</h3>
+
+<table class="table default clickable" id="<%= block_for %>_missing_students_table">
+    <thead>
+    <tr>
+        <th>
+            Login
+        </th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @module_instance_activity_relation.missing_students(existing_students).each do |student| %>
+        <tr href="<%= student_path(student.login) %>">
+            <td>
+                <%= student.login %>
+            </td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<script>
+    $(function(){
+        defaultDatatable($('#<%= block_for %>missing_students_table'));
+    });
+</script>

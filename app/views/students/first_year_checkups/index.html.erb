@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing First Year Checkups</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @first_year_checkups.each do |first_year_checkup| %>
+      <tr>
+        <td><%= link_to 'Show', first_year_checkup %></td>
+        <td><%= link_to 'Edit', edit_first_year_checkup_path(first_year_checkup) %></td>
+        <td><%= link_to 'Destroy', first_year_checkup, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New First year checkup', new_first_year_checkup_path %>

@@ -1,0 +1,25 @@
+<div class="col-xs-12">
+    <% if @student.last_checkup.nil? %>
+        <div class="alert alert-danger" role="alert">
+            <strong>There is no checkup yet! </strong>Someone need to talk with this guy !
+        </div>
+    <% else %>
+        <% if @student.last_checkup.time_ago >= 31 %>
+            <div class="alert alert-danger" role="alert">
+                <strong>Last checkup <%= @student.last_checkup.time_ago %> days ago !</strong> You should take some news.
+            </div>
+        <% elsif @student.last_checkup.time_ago >= 14 %>
+            <div class="alert alert-warning" role="alert">
+                <strong>Last checkup <%= @student.last_checkup.time_ago %> days ago !</strong> You may take some news.
+            </div>
+        <% elsif @student.last_checkup.time_ago >= 7 %>
+            <div class="alert alert-info" role="alert">
+                <strong>Last checkup <%= @student.last_checkup.time_ago %> days ago !</strong> it's allright.
+            </div>
+        <% else %>
+            <div class="alert alert-success" role="alert">
+                <strong>Last checkup <%= @student.last_checkup.time_ago %> days ago !</strong> Good job ;)
+            </div>
+        <% end %>
+    <% end %>
+</div>

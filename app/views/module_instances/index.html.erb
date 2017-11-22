@@ -1,0 +1,77 @@
+<div class="row">
+    <h3 class="default">
+        Module Instances
+    </h3>
+
+    <%= bootstrap_form_tag method: :get do |f| %>
+        <%= f.select :scholar_year, options_for_select(ModuleInstance.select(:scholar_year).order(scholar_year: 'desc').distinct.map{|e| [e[:scholar_year],e[:scholar_year]]}, params[:scholar_year]), label: false %>
+        <%= f.submit 'Search', class: 'btn btn-success' %>
+    <% end %>
+
+    <table class="table clickable default" id="module_instances_table">
+        <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+
+            <th>
+                Code
+            </th>
+
+            <th>
+                City-code
+            </th>
+
+            <th>
+                Scholar year
+            </th>
+
+            <th>
+                Profs
+            </th>
+
+            <th>
+                Profs count
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <% @module_instances.includes(:epitech_module, :professors).order(:scholar_year).each do |module_instance| %>
+        <tr href="<%= module_instance_path(module_instance) %>">
+            <td>
+                <%= module_instance.epitech_module.name %>
+            </td>
+
+            <td>
+                <%= module_instance.epitech_module.code %>
+            </td>
+
+            <td>
+                <%= module_instance.code %>
+            </td>
+
+            <td>
+                <%= module_instance.scholar_year %>
+            </td>
+
+            <% profs = module_instance.professors.map(&:login) %>
+            <td>
+                <%= profs.join(', ') %>
+            </td>
+
+            <td>
+                <%= profs.count %>
+            </td>
+        </tr>
+        <% end %>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(function() {
+        defaultDatatable($('#module_instances_table'));
+    });
+</script>

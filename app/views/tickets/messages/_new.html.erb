@@ -1,0 +1,29 @@
+<h3>
+    Post a new message
+</h3>
+
+<div class="default-form">
+    <%= bootstrap_form_for(@answer, url: ticket_messages_path(@answer.ticket_id)) do |f| %>
+        <h4>
+            Update ticket properties
+        </h4>
+        <div class="col-xs-6">
+            <%= f.select :category, options_for_select(Ticket.categories.map{|k, v| [k.humanize, k]}, selected: @ticket.category), control_col: 'col-sm-6' %>
+        </div>
+        <div class="col-xs-6">
+            <%= f.select :status, options_for_select(Ticket.statuses.map{|k, v| [k.humanize, k]}, selected: @ticket.status), control_col: 'col-sm-6' %>
+        </div>
+
+        <h4>
+            Your message
+        </h4>
+
+        <div class="col-xs-12">
+            <%= f.text_area :message, {required: true} %>
+        </div>
+
+        <div class="col-xs-12">
+            <%= f.submit :Send, class: 'btn btn-success pull-right' %>
+        </div>
+    <% end %>
+</div>

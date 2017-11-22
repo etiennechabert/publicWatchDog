@@ -1,0 +1,30 @@
+<h3 class="default">Listing Epitech Modules(<%= @epitech_modules.count %>)</h3>
+
+<table class="table default clickable">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Credits</th>
+        <th>School</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <% @epitech_modules.each do |epitech_module| %>
+        <tr href="<%= epitech_module_path(epitech_module) %>">
+            <td><%= epitech_module.name %></td>
+            <td><%= epitech_module.description %></td>
+            <td><%= epitech_module.credits %></td>
+            <td><%= epitech_module.schools.uniq{|e| e.name}.map{ |e| e.name }.join(',') %></td>
+        </tr>
+    <% end %>
+    </tbody>
+</table>
+
+<script>
+    $(function(){
+        defaultDatatable($('table'));
+        createHideSection($('table'));
+    })
+</script>

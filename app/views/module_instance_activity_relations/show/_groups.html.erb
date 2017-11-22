@@ -1,0 +1,97 @@
+<h3 class="default">
+    <%= @module_instance_activity_relation.groups.count %> groups registered
+</h3>
+
+<table class="default table clickable colorable" id="groups_table">
+    <thead>
+        <tr>
+            <th>
+                Master
+            </th>
+
+            <th>
+                Members
+            </th>
+
+            <th color="true" good="true">
+                Average GPA
+            </th>
+
+            <th color="true" good="true">
+                Averages grades
+            </th>
+
+            <th color="true" good="true">
+                Average netsoul
+            </th>
+
+            <th color="true" good="true">
+                Lowest GPA
+            </th>
+
+            <th color="true" good="true">
+                Lowest grades
+            </th>
+
+            <th color="true" good="true">
+                Lowest netsoul
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% @module_instance_activity_relation.groups.includes(:members, :leader).each do |group| %>
+        <tr href="<%= instance_activity_group_path(group) %>">
+            <td>
+                <%= group.leader.first.login %>
+            </td>
+
+            <td>
+                <%= (group.members.map {|student| student.login}).join(', ') %>
+            </td>
+
+            <% data = group.average_gpa.round(2) %>
+            <td data="<%= data %>">
+                <%= group.average_gpa.round(2) %>
+            </td>
+
+            <% data = group.average_grades.round(2) %>
+            <td data="<%= data %>">
+                <%= group.average_grades.round(2) %>
+            </td>
+
+            <% v = group.average_nestsoul %>
+            <td data="<%= v %>">
+               <span style="display: none">
+                   <%= "%.10i" %v.to_i %>
+               </span>
+                <%= int_to_duration(v) %>
+            </td>
+
+            <% data = group.lowest_gpa.round(2) %>
+            <td data="<%= data %>">
+                <%= group.lowest_gpa.round(2) %>
+            </td>
+
+            <% data = group.lowest_grades.round(2)  %>
+            <td data="<%= data %>">
+                <%= group.lowest_grades.round(2) %>
+            </td>
+
+            <% v = group.lowest_nestsoul %>
+            <td data="<%= v %>">
+               <span style="display: none">
+                   <%= "%.10i" %v.to_i %>
+               </span>
+                <%= int_to_duration(v) %>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<script>
+    $(function(){
+        defaultDatatable($('#groups_table'));
+    });
+</script>

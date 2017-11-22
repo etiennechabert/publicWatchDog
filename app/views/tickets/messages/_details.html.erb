@@ -1,0 +1,17 @@
+<%
+   if message.user_id == current_user.id
+       user = 'You'
+       className = 'text-left'
+   else
+       user = message.user.login
+       className = 'text-right'
+   end
+%>
+
+<label for="msg-<%= message.id %>" class="default col-xs-2 control-label <%= className %>">
+    <%= user %>
+    <br/>
+    <%= message.created_at.strftime('%Hh%M %d %B %Y') %>
+    <br/>
+    <%= time_ago(message.created_at) %> ago
+</label>

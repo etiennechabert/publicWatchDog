@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PedaNinja</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= stylesheet_link_tag params[:controller], media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag params[:controller], 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+</head>
+<body>
+
+<p class="alert"><%= alert %></p>
+
+<div id="login_container">
+    <%= yield %>
+</div>
+
+</body>
+</html>
+
+<style>
+    #login_container{
+        position: static;
+        top: 0;
+        left: 0;
+        padding: 15% 35%;
+        color: whitesmoke;
+    }
+
+        #login_container .form-group input{
+            color: black !important;
+            text-align: center;
+        }
+
+        .alert{
+            text-align: center;
+            color: lightcoral;
+        }
+</style>
